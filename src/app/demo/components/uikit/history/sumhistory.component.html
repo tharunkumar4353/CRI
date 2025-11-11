@@ -1,0 +1,145 @@
+<div class="card">
+    <h4>Machine History Records</h4>
+    <hr>
+    <p-tabView>
+      <p-tabPanel header="Maintenance and Repair">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Description Activity</th>
+              <th>Performed By</th>
+              <th>Remark</th>
+              <th>Additional Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of maintenanceRepairLogData">
+              <td>{{ item.descriptionactivity }}</td>
+              <td>{{ item.performedby }}</td>
+              <td>{{ item.remark }}</td>
+              <td>{{ item.addpoint }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+  
+      <p-tabPanel header="Incident Log">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Incident Description</th>
+              <th>Reported By</th>
+              <th>Action Taken</th>
+              <th>Additional Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of incidentLogData">
+              <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ item.incidentdescription }}</td>
+              <td>{{ item.reportedby }}</td>
+              <td>{{ item.actiontaken }}</td>
+              <td>{{ item.addpoint }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+  
+      <p-tabPanel header="Performance Utilization">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Performance Metrics</th>
+              <th>Remark</th>
+              <th>Additional Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of performanceUtilizationData">
+              <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ item.performancemetrics }}</td>
+              <td>{{ item.remark }}</td>
+              <td>{{ item.addpoint }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+  
+      <p-tabPanel header="Part Replacement">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Part Replaced</th>
+              <th>Replaced By</th>
+              <th>Remark</th>
+              <th>Additional Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of partReplacementData">
+              <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ item.partreplaced }}</td>
+              <td>{{ item.replacedby }}</td>
+              <td>{{ item.remark }}</td>
+              <td>{{ item.addpoint }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+  
+      <p-tabPanel header="Scheduled Maintenance">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Maintenance Task</th>
+              <th>Performed By</th>
+              <th>Remark</th>
+              <th>Additional Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of scheduledMaintenanceData">
+              <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ item.maintenancetask }}</td>
+              <td>{{ item.performedby }}</td>
+              <td>{{ item.remark }}</td>
+              <td>{{ item.addpoint }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
+
+<style>
+     /* app.component.css */
+     .table-container {
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }   
+</style>

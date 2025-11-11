@@ -1,0 +1,262 @@
+<div class="card">
+    <h4>Machine Installation Record</h4>
+    <hr>
+    <p-tabView>
+        <p-tabPanel header="General Information">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Machine Name</th>
+                    <th>Model Number</th>
+                    <th>Serial Number</th>
+                    <th>Manufacturer</th>
+                    <th>Date of Installation</th>
+                    <th>Additional Point</th>
+                    <th>Prepared by</th>
+                    <th>Approved by</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let machine of machineData">
+                    <td>{{ machine.machinename }}</td>
+                    <td>{{ machine.modelnumber }}</td>
+                    <td>{{ machine.serialnumber }}</td>
+                    <td>{{ machine.manufacturer }}</td>
+                    <td>{{ machine.dateofinstallation | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ machine.addpoint }}</td>
+                    <td>{{ machine.preparedby }}</td>
+                    <td>{{ machine.approvedby }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </p-tabPanel>
+
+        <p-tabPanel header="Installation Details">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th>Install by</th>
+                    <th>Installation Supervisor</th>
+                    <th>Installation Method</th>
+                    <th>Additional Point</th>
+                    <th>Prepared by</th>
+                    <th>Approved by</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of installationDetailData">
+                    <td>{{item.location}}</td>
+                    <td>{{ item.installedby }}</td>
+                    <td>{{ item.installationsupervisor }}</td>
+                    <td>{{ item.installationmethod }}</td>
+                    <td>{{ item.addpoint }}</td>
+                    <td>{{ item.preparedby }}</td>
+                    <td>{{ item.approvedby }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </p-tabPanel>
+        <p-tabPanel header="Machine Specification">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Power Requirements</th>
+                        <th>dimensions</th>
+                        <th>weight</th>
+                        <th>operationalcapacity</th>
+                        <th>Additional Point</th>
+                        <th>Prepared by</th>
+                        <th>Approved by</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of machineSpecificationsData">
+                        <td>{{ item.powerrequirements}}</td>
+                        <td>{{ item.dimensions }}</td>
+                        <td>{{ item.weight }}</td>
+                        <td>{{item.operationalcapacity}}</td>
+                        <td>{{ item.addpoint }}</td>
+                        <td>{{ item.preparedby }}</td>
+                        <td>{{ item.approvedby }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p-tabPanel>
+
+        <p-tabPanel header="Safety and Compliance" >
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>safetyfeatures</th>
+                        <th>compliancestandards</th>
+                        <th>safetyinspections</th>
+                        <th>inspectiondate</th>
+                       
+                        <th>Additional Point</th>
+                        <th>Prepared by</th>
+                        <th>Approved by</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of safetyComplianceData">
+                        <td>{{ item.safetyfeatures }}</td>
+                        <td>{{ item.compliancestandards }}</td>
+                        <td>{{ item.safetyinspections }}</td>
+                        <td>{{ item.inspectiondate | date: 'yyyy-MM-dd' }}</td>
+                        <td>{{ item.addpoint }}</td>
+                        <td>{{ item.preparedby }}</td>
+                        <td>{{ item.approvedby }}</td>
+                      </tr>
+                </tbody>
+            </table>
+        </p-tabPanel>
+        
+        <p-tabPanel header="Initial Testing Calibration" >
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>testconducted</th>
+                        <th>results</th>
+                        <th>calibrationdetails</th>
+                        <th>calibratedby</th>
+                        <th>Additional Point</th>
+                        <th>Prepared by</th>
+                        <th>Approved by</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of initialTestingCalibrationData">
+                        <td>{{ item.testconducted }}</td>
+                        <td>{{ item.results }}</td>
+                        <td>{{ item.calibrationdetails }}</td>
+                        <td>{{ item.calibratedby}}</td>
+                        <td>{{ item.addpoint }}</td>
+                        <td>{{ item.preparedby }}</td>
+                        <td>{{ item.approvedby }}</td>
+                      </tr>
+                </tbody>
+            </table>
+
+        </p-tabPanel>
+
+        <p-tabPanel header="Maintenance Schedule" >
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>firstmaintenancedate</th>
+                        <th>routinemaintenance</th>
+                        <th>nextscheduledmaintenance</th>
+                        
+                        <th>Additional Point</th>
+                        <th>Prepared by</th>
+                        <th>Approved by</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of maintenanceScheduleData">
+                        <td>{{ item.firstmaintenancedate | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{ item.routinemaintenance }}</td>
+                        <td>{{ item.nextscheduledmaintenance | date: 'yyyy-MM-dd'}}</td>
+                        
+                        <td>{{ item.addpoint }}</td>
+                        <td>{{ item.preparedby }}</td>
+                        <td>{{ item.approvedby }}</td>
+                      </tr>
+                </tbody>
+            </table>
+        </p-tabPanel>
+
+        <p-tabPanel header="Training and Documentation" >
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>trainingprovide</th>
+                        <th>trainingdate</th>
+                        <th>trainername</th>
+                        <th>documentationprovided</th>
+                        <th>usermanuals</th>
+                        <th>Additional Point</th>
+                        <th>Prepared by</th>
+                        <th>Approved by</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of trainingDocumentationData">
+                        <td>{{ item.trainingprovide }}</td>
+                        <td>{{ item.trainingdate | date: 'yyyy-MM-dd' }}</td>
+                        <td>{{ item.trainername }}</td>
+                        <td>{{ item.documentationprovided }}</td>
+                        <td>{{ item.usermanuals}}</td>
+                        <td>{{ item.addpoint }}</td>
+                        <td>{{ item.preparedby }}</td>
+                        <td>{{ item.approvedby }}</td>
+                      </tr>
+                </tbody>
+            </table>
+        </p-tabPanel>
+
+        <p-tabPanel header="Warrantly and Support" >
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>warrantyperiod</th>
+                        <th>warrantystartdate</th>
+                        <th>warrantyenddate</th>
+                        <th>supportcontact</th>
+                        <th>Additional Point</th>
+                        <th>Prepared by</th>
+                        <th>Approved by</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of warrantySupportData">
+                        <td>{{ item.warrantyperiod }}</td>
+                        <td>{{ item.warrantystartdate  | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{ item.warrantyenddate  | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{ item.supportcontact }}</td>
+                        <td>{{ item.addpoint }}</td>
+                        <td>{{ item.preparedby }}</td>
+                        <td>{{ item.approvedby }}</td>
+                      </tr>
+                </tbody>
+            </table>
+        </p-tabPanel>
+
+    </p-tabView>
+</div>
+
+
+<style>
+     /* app.component.css */
+     .table-container {
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }   
+</style>

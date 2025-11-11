@@ -1,0 +1,133 @@
+<div class="card">
+    <h4>TAB01 - CNC001</h4>
+    <hr>
+    <table class="table">
+        <tr>
+            <th>Plan Number</th>
+            <th>Date</th>
+            <th>Setter Name</th>
+            <th>Operator Name</th>
+            <th>Mode</th>
+            <th>Work Order</th>
+            <th>Customer Code</th>
+            <th>FG Name</th>
+            <th>Part-Process-Id</th>
+            <th>Part Id</th>
+            <th>Part Name</th>
+            <th>Process Name</th>
+            <th>Planned Cycle Time</th>
+            <th>Assigned Quantity</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+        </tr>
+        <tr *ngFor="let part of data">
+            <td>{{ part.custom_id }}</td>
+            <td>{{ currentDate | date:'shortDate' }}</td>
+            <td>{{ part.settername }}</td>
+            <td>{{ part.operatorname }}</td>
+            <td>{{ part.processtype }}</td>
+            <td>{{ part.work_order }}</td>
+            <td>{{ part.cust_code }}</td>
+            <td>{{ part.fg_name }}</td>
+            <td>{{ part.itemprocess_id }}</td>
+            <td>{{ part.itemcode }}</td>
+            <td>{{ part.itemname }}</td>
+
+            <td>{{ part.process_name }}</td>
+            <td>{{ part.plannedcycletime }}</td>
+            <td>{{ part.planquantity }}</td>
+            <td>{{ formatTime1(part.starttime) }}</td>
+            <td>{{ formatTime1(part.endtime) }}</td> 
+            <td>
+                <div class="button-group">
+                    <p-button 
+                    routerLink="cycle"
+                    [queryParams]="{ Date: part.date, customid: part.custom_id, cycle: part.plannedcycletime, uniqid: part.id, partId: part.itemcode, partName: part.itemname, planquantity: part.planquantity, programNo: part.program_no, operatorName: part.operatorname, setterName: part.settername, processName: part.process_name, processType: part.processtype,custcode: part.cust_code, fgname: part.fg_name }"
+                    class="but1"
+                    (click)="updateMachineMode('CNC-02', part.processtype, part.itemcode, part.process_name, part)" 
+
+                    [disabled]="part.isActive || buttonState[part.id]"  
+                    (click)="onStartClick(part)" 
+                    label="Start">
+                  </p-button>
+                  
+
+                    
+                    <p-button 
+                        [queryParams]="{ Date: part.date, customid:part.custom_id, cycle: part.plannedcycletime, uniqid: part.id, partId: part.itemcode, partName: part.itemname, planquantity: part.planquantity, programNo: part.program_no, operatorName: part.operatorname, setterName: part.settername, processName: part.process_name, processType: part.processtype, custcode: part.cust_code, fgname: part.fg_name  }" 
+                        routerLink="cycle"
+                        class="but1">
+                        <i class="fa-solid fa-display"></i>
+                    </p-button>
+                    
+                    <p-button 
+                        class="but2"  
+                        severity="warning" 
+                        label="Cancel" 
+                        (click)="cancelProcess1(part)">
+                    </p-button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<style>
+   .card {
+        width: 2300px;
+    }
+
+    .table-container {
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    select {
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        width: 150px;
+        height: 30px;
+        background-color: #fff;
+        color: #333;
+        font-size: 14px;
+        padding: 2px 5px
+    }
+
+    select:focus {
+        border-color: #0056b3; /* Darker blue when focused */
+        outline: none;
+    }
+
+    option {
+        padding: 10px; /* Padding for better visibility */
+    }
+
+    .button-group {
+    display: flex;
+    gap: 10px; /* Adds space between the buttons */
+}
+
+.but1, .but2 {
+    margin-right: 0px; /* Ensures buttons are aligned closely */
+}
+
+</style>

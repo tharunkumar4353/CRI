@@ -1,0 +1,102 @@
+<div class="surface-ground flex flex-column align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center flex-grow-1">
+        <img src="assets/layout/images/cri.png" alt="Sakai logo" class="mb-5 w-15rem flex-shrink-0">
+        <div class="card-container">
+            <div class="w-full surface-card py-8 px-5 sm:px-8 card-content">
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
+                    <span class="text-600 font-medium">Sign in to continue</span>
+                </div>
+
+                <div>
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Admin</label>
+                    <input id="email1" type="text" [(ngModel)]="emp" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+
+                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
+                    <p-password id="password1" [(ngModel)]="password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+
+                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                        <span>To Change Employee Password:</span>
+                        <button (click)="showDialog()" class="login">Forgot password?</button>
+                    </div>
+                    
+                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="loginad()"></button>
+                    
+                    <div class="mt-5">
+                        <span>To Create Employee Id:</span>
+                        <button (click)="goToSignUp()" class="login">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layout-footer">
+        <span>Powered by <img src="assets/layout/images/FINAL LOGO D4C COLOR-01.png" alt="Dyna4Cast" height="40px" class="mb-3" style="vertical-align: middle; margin-top: 5px;"> Dyna4Cast Technologies</span>
+    </div>
+</div>
+
+<p-dialog header="Change Password" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="emp" class="font-semibold w-6rem">ID</label>
+        <input pInputText id="emp" [(ngModel)]="emp1" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="password" class="font-semibold w-6rem">New Password</label>
+        <input pInputText id="password" [(ngModel)]="password1" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="adpass" class="font-semibold w-6rem">Admin Password</label>
+        <input pInputText id="adpass" [(ngModel)]="adpass" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Submit" (click)="change()" />
+    </div>
+</p-dialog>
+
+<style>
+    .surface-ground {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flex-grow-1 {
+        flex-grow: 1;
+    }
+
+    .card-container {
+        border-radius: 56px;
+        padding: 0.3rem;
+        background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);
+    }
+
+    .card-content {
+        border-radius: 53px;
+    }
+
+    .login {
+        border: 1px solid rgb(255, 255, 255);
+        background-color: white;
+        color: rgb(79, 79, 245);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .layout-footer {
+        width: 100%;
+        text-align: center;
+        margin-top: auto;
+        padding: 1rem 0;
+        background-color: #f8f9fa;
+    }
+
+    .layout-footer span {
+        margin-right: 30px;
+    }
+
+    .layout-footer img {
+        vertical-align: middle;
+        margin-top: 5px;
+    }
+</style>

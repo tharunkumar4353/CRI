@@ -1,0 +1,69 @@
+<div class="grid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <div class="header">
+                <h4>Machine Status Graph</h4>
+                <p-button class="back-button" (click)="goBack()"><i class="fa-solid fa-arrow-left"></i></p-button>
+            </div>
+            <hr>
+            <div class="flex align-items-center gap-2">
+                <div class="button-group">
+                    <p-dropdown [options]="machines" [(ngModel)]="selectedMachine" placeholder="Select Machine"></p-dropdown>
+                    <p-calendar [(ngModel)]="dateFrom" placeholder="Date From" inputStyleClass="p-inputtext-sm" dateFormat="dd-mm-yy"></p-calendar>
+                    <p-calendar [(ngModel)]="dateTo" [minDate]="dateFrom" placeholder="Date To" inputStyleClass="p-inputtext-sm" dateFormat="dd-mm-yy"></p-calendar>
+                    <p-button label="Submit" (click)="onSubmit()" class="p-button-sm"></p-button>
+                    <p-button label="Today's Graph" (click)="showTodayGraph()" class="p-button-sm"></p-button>
+                </div>
+                <p-button (click)="refreshGraph()" class="p-button-sm refresh-button">
+                    <i class="pi pi-fw pi-refresh"></i>
+                </p-button>
+            </div>
+            <hr>
+            <div class="card flex justify-content-center">
+                <p-chart type="bar" [data]="data1" [options]="options1" style="width: 100%;"></p-chart>
+            </div>
+        </div>
+        <div class="card">
+            <h4>Part Count Graph</h4>
+            <hr>
+            <div class="flex align-items-center gap-2">
+                <div class="button-group">
+                    <p-dropdown [options]="machines" [(ngModel)]="selectedMachine" placeholder="Select Machine"></p-dropdown>
+                    <p-calendar [(ngModel)]="dateFrom" placeholder="Date From" inputStyleClass="p-inputtext-sm" dateFormat="dd-mm-yy"></p-calendar>
+                    <p-calendar [(ngModel)]="dateTo" [minDate]="dateFrom" placeholder="Date To" inputStyleClass="p-inputtext-sm" dateFormat="dd-mm-yy"></p-calendar>
+                    <p-button label="Submit" (click)="onSubmit1()" class="p-button-sm"></p-button>
+                    <p-button label="Today's Graph" (click)="showTodayGraph1()" class="p-button-sm"></p-button>
+                </div>
+                <p-button (click)="refreshGraph1()" class="p-button-sm refresh-button">
+                    <i class="pi pi-fw pi-refresh"></i>
+                </p-button>
+            </div>
+            <hr>
+            <div class="card flex justify-content-center">
+                <p-chart type="bar" [data]="data2" [options]="options2" style="width: 100%;"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 0.5rem;
+        flex: 1;
+    }
+
+    .back-button {
+        margin-left: auto;
+    }
+
+    .refresh-button {
+        margin-left: auto;
+    }
+</style>

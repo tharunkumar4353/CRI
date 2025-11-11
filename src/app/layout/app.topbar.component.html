@@ -1,0 +1,154 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" [routerLink]="">
+        <img src="assets\layout\images\cri.png" alt="Sankyu logo" class=" w-15rem flex-shrink-0">
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+       
+            <button  [routerLink]="'/checkno'" class="p-link layout-topbar-button">
+                <i class="fa-sharp fa-regular fa-circle-check" ></i>
+                <span>Quality</span>
+            </button>
+
+            <!-- <button  [routerLink]="'/btoolno'" class="p-link layout-topbar-button">
+                <i class="fas fa-tools" ></i>
+                <span>Maintenance</span>
+            </button>
+
+            <button  [routerLink]="'/bellno'" class="p-link layout-topbar-button">
+                <i class="fa-regular fa-bell" ></i>
+                <span>Notification</span>
+            </button>         -->
+
+        <button class="p-link layout-topbar-button" (click)="confirmLogout()">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+
+
+
+    </div>
+</div>
+<p-confirmDialog></p-confirmDialog>
+
+
+<!-- 
+<style>
+    .notification-icon {
+        position: relative;
+        display: inline-block;
+        margin-top: 10px;
+        margin-left: 24px;
+
+    }
+    
+    .notification-icon button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+    
+    .notification-icon .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 6px;
+        font-size: 8px;
+    }
+
+
+    .notification-icon button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: background-color 0.7s ease, color 0.7s ease, border-radius 0.3s ease;
+    }
+
+
+
+
+    .tool-icon {
+        position: relative;
+        display: inline-block;
+        margin-top: 10px;
+        margin-left: 24px;
+      
+    }
+    
+    .tool-icon button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+    
+    .tool-icon .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 6px;
+        font-size: 8px;
+    }
+
+
+
+    .tool-icon button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+    
+
+
+    .check-icon {
+        position: relative;
+        display: inline-block;
+        margin-top: 10px;
+      
+    }
+    
+    .check-icon button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+    
+    .check-icon .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 6px;
+        font-size: 8px;
+    }
+
+
+
+    .check-icon button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+    
+</style> -->

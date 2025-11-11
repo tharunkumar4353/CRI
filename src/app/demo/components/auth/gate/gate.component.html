@@ -1,0 +1,87 @@
+
+    <div class="flex flex-column align-items-center justify-content-center">
+        <img src="assets/layout/images/cri.png" alt="Sakai logo" class="mb-5 w-15rem flex-shrink-0" style="margin-top: 200px;">
+        <div style="border-radius:56px; padding:0.rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+
+        <div class="card-container">
+            <div class="w-full surface-card py-8 px-5 sm:px-8 card-content">
+                <div class="grid p-fluid mt-1">
+                    <div class="field col-12 md:col-6 text-center">
+                        <button (click)="admin()" class="button-rounded">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                        <div class="label">Admin</div>
+                    </div>
+                    <div class="field col-12 md:col-6 text-center">
+                        <button (click)="emp()" class="button-rounded">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                        <div class="label">Employee</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="layout-footer">
+    <span >Powered by <img src="assets/layout/images/FINAL LOGO D4C COLOR-01.png" alt="Dyna4Cast" height="40px" class="mb-3" style="vertical-align: middle; margin-top: 5px;"> Dyna4Cast Technologies</span>
+</div>
+<style>
+    
+    span {
+    margin-right: 30px;
+}
+
+.card-container {
+    border-radius: 56px;
+    padding: 0.3rem;
+    height: 515px;
+}
+
+.card-content {
+    border-radius: 53px;
+    
+}
+
+.button-rounded {
+    border: none;
+    background: linear-gradient(135deg, #1e88e5, #42a5f5);
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button-rounded:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #424242;
+}
+
+.fa-solid {
+    font-size: 48px;
+}
+
+
+
+
+
+</style>

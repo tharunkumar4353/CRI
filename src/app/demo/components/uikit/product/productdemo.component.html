@@ -1,0 +1,20 @@
+<!-- file-management.component.html -->
+<div>
+    <h1>File Management</h1>
+  
+    <!-- File Upload Section -->
+    <div>
+      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="uploadFile()">Upload File</button>
+    </div>
+  
+    <!-- File Download Section -->
+    <div>
+      <select [(ngModel)]="selectedFileId">
+        <option value="">Select a file</option>
+        <option *ngFor="let file of fileList" [value]="file.Id">{{ file.FileName }}</option>
+      </select>
+      <button (click)="downloadFile()">Download File</button>
+    </div>
+  </div>
+  

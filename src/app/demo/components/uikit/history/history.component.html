@@ -1,0 +1,321 @@
+<div class="card">
+    <h4>Machine History Card</h4>
+    <p-fieldset legend="History Card">
+        <div class="grid p-fluid mt-1"> 
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="machine_name" (click)="openSearchDialog()"[(ngModel)]="machine_name"/>
+                    <label for="machine_name">Machine Name</label>
+                    <p-dialog header="Search Machine" [(visible)]="visibleSearchDialog" [modal]="true" [closable]="true" (onHide)="closeSearchDialog()">
+                        <div class="p-inputgroup">
+                            <input pInputText placeholder="Search..." (input)="performSearch($event.target.value)" />
+                            <button pButton type="button" icon="pi pi-search"></button>
+                        </div>
+                        <ul>
+                            <li *ngFor="let name of filteredMachineNames" (click)="selectMachineName(name)" class="option-item" >{{ name }}</li>
+                        </ul>
+                    </p-dialog>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="model_number" [(ngModel)]="modelNumber"/>
+                    <label for="model_number">Model Number</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="serial_number" [(ngModel)]="serialNumber" />
+                    <label for="serial_number">Serial Number</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="manufacturer" [(ngModel)]="manufacturer" />
+                    <label for="manufacturer">Manufacturer</label>
+                </span>
+            </div>
+
+
+
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="date_installation" [(ngModel)]="dateOfInstallation"  />
+                    <label for="date_installation">Date Of Installation</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-calendar [(ngModel)]="dateOfPurchase"  placeholder="[Enter Date]" id="date_purchase" class="custom-calendar" autocomplete="off"></p-calendar>
+                    <label for="date_purchase">Date Of Purchase</label>
+                </span>
+            </div>
+        </div>
+
+        <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+            <div class="field col-12 md:col-4">
+                <p-button (click)="maintenance()" label="Maintenance And Repair Log" severity="danger"></p-button>
+            </div>
+            <div class="field col-12 md:col-4">
+                <p-button (click)="incident()" label="Incident Log" severity="danger"></p-button>
+            </div>
+        </div>
+        <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+            <div class="field col-12 md:col-4">
+                <p-button (click)="performance()" label="Performance And Utilization" severity="danger"></p-button>
+            </div>
+            <div class="field col-12 md:col-4">
+                <p-button (click)="part()" label="Part Replacement Log" severity="danger"></p-button>
+            </div>
+        </div>
+
+        <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+            <div class="field col-12 md:col-4">
+                <p-button (click)="scheduled()" label="Scheduled Maintenance" severity="danger"></p-button>
+            </div>
+        </div>
+
+        <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+            <div class="field col-12 md:col-8">
+                <span class="p-float-label">
+                    <textarea rows="5" cols="30" pInputTextarea [autoResize]="true" [(ngModel)]="addpoint"></textarea>
+                    <label for="mail">Additional Notes</label>
+                </span>
+            </div>
+        </div>
+
+        <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+
+            <div class="field col-12 md:col-2">
+                <p-button label="Submit" (click)="submitData()"></p-button>
+            </div>
+            <div class="field col-12 md:col-2">
+                <p-button label="Summary" routerLink="sumhistory"></p-button>
+            </div>
+        </div>
+
+    </p-fieldset>
+</div>
+
+<!-- Maintenance and Repair -->
+<p-dialog header="Maintenance and Repair" [modal]="true" [(visible)]="visible1" [style]="{ width: '66rem' }">
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Description Of Activity</th>
+            <th>Performed By</th>
+            <th>Remark</th>
+        </tr>
+        <tr *ngFor="let row of maintenanceRows; let i = index">
+            <td>
+                <input type="date" id="date" name="datepicker" class="p-inputtext p-component" [(ngModel)]="row.date"  placeholder="Enter Date">
+                
+                
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.activity" placeholder="Enter Activity" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.performedBy" placeholder="Enter Name" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.remark" placeholder="Enter Remark" />
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Add Row" (click)="addMaintenanceRow()" />
+        <p-button label="Cancel" severity="secondary" (click)="visible1 = false" />
+        <p-button label="Save"  (click)="visible1 = false" />
+    </div>
+</p-dialog>
+
+<!-- Incident Log -->
+<p-dialog header="Incident Log" [modal]="true" [(visible)]="visible2" [style]="{ width: '65rem' }">
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Incident Description</th>
+            <th>Reported By</th>
+            <th>Action Taken</th>
+        </tr>
+        <tr *ngFor="let row of incidentRows; let i = index">
+            <td>
+                <input type="date" id="date" name="datepicker" class="p-inputtext p-component" [(ngModel)]="row.date" placeholder="Enter Date">
+              
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.description" placeholder="Enter Description" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.reportedBy" placeholder="Reported By" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.actionTaken" placeholder="Action Taken" />
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Add Row" (click)="addIncidentRow()" />
+        <p-button label="Cancel" severity="secondary" (click)="visible2 = false" />
+        <p-button label="Save" (click)="visible2 = false" />
+    </div>
+</p-dialog>
+
+<!-- Performance and Utilization -->
+<p-dialog header="Performance and Utilization" [modal]="true" [(visible)]="visible3" [style]="{ width: '55rem' }">
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Performance Metrics</th>
+            <th>Remarks</th>
+        </tr>
+        <tr *ngFor="let row of performanceRows; let i = index">
+            <td>
+                <input type="date" id="date" name="datepicker" class="p-inputtext p-component" [(ngModel)]="row.date" placeholder="Enter Date">
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.metrics" placeholder="Enter Metrics" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.remarks" placeholder="Enter Remarks" />
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Add Row" (click)="addPerformanceRow()" />
+        <p-button label="Cancel" severity="secondary" (click)="visible3 = false" />
+        <p-button label="Save" (click)="visible3 = false" />
+    </div>
+</p-dialog>
+
+<!-- Parts Replacement Log -->
+<p-dialog header="Parts Replacement Log" [modal]="true" [(visible)]="visible4" [style]="{ width: '65rem' }">
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Part Replaced</th>
+            <th>Replaced By</th>
+            <th>Remarks</th>
+        </tr>
+        <tr *ngFor="let row of partsReplacementRows; let i = index">
+            <td>
+                <input type="date" id="date" name="datepicker" class="p-inputtext p-component" [(ngModel)]="row.date" placeholder="Enter Date">
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.part" placeholder="Enter Part" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.replacedBy" placeholder="Replaced By" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.remarks" placeholder="Enter Remarks" />
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Add Row" (click)="addPartsReplacementRow()" />
+        <p-button label="Cancel" severity="secondary" (click)="visible4 = false" />
+        <p-button label="Save" (click)="visible4 = false" />
+    </div>
+</p-dialog>
+
+<!-- Scheduled Maintenance -->
+<p-dialog header="Scheduled Maintenance" [modal]="true" [(visible)]="visible5" [style]="{ width: '65rem' }">
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Maintenance Task</th>
+            <th>Performed By</th>
+            <th>Remarks</th>
+        </tr>
+        <tr *ngFor="let row of scheduledMaintenanceRows; let i = index">
+            <td>
+                <input type="date" id="date" name="datepicker" class="p-inputtext p-component" [(ngModel)]="row.date" placeholder="Enter Date">
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.task" placeholder="Enter Task" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.performedBy" placeholder="Performed By" />
+            </td>
+            <td>
+                <input pInputText [(ngModel)]="row.remarks" placeholder="Enter Remarks" />
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Add Row" (click)="addScheduledMaintenanceRow()" />
+        <p-button label="Cancel" severity="secondary" (click)="visible5 = false" />
+        <p-button label="Save" (click)="visible5 = false" />
+    </div>
+</p-dialog>
+
+
+
+
+
+
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .option-item {
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      
+/* app.component.css or global styles (styles.css) */
+input[type="date"].p-inputtext {
+    appearance: none;
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-radius: 0.25rem;
+    width: 100%;
+  }
+  
+  input[type="date"].p-inputtext:hover {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  input[type="date"].p-inputtext:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+
+</style>

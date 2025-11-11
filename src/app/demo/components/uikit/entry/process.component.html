@@ -1,0 +1,140 @@
+<div class="card">
+    <div class="grid p-fluid mt-1">
+        <div class="field col-12 md:col-11">
+            <h4>Process Search </h4>
+        </div>
+        <div class="field col-12 md:col-1 text-right">
+            <p-button class="refresh-button" (click)="goBack()"><i class="fa-solid fa-arrow-left"></i></p-button>
+        </div>
+    </div>
+     
+    <hr>
+    <div class="grid p-fluid mt-1">
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input pInputText id="process_id" [(ngModel)]="filterProcessId" />
+                <label for="process_id">Process Id</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input pInputText id="process_name" [(ngModel)]="filterProcessName" />
+                <label for="process_name">Process Name</label>
+            </span>
+        </div>
+
+    </div>
+    <div class="grid p-fluid mt-1">
+        <div class="field col-12 md:col-2">
+            <p-button label="Search" (click)="submitForm()"><i class="fa-solid fa-magnifying-glass"></i></p-button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h4>Process Summary Table</h4>
+    <hr>
+    <div class="grid p-fluid mt-1">
+        <div class="field col-12 md:col-2">
+            <p-button label="Download Excel" (click)="exportExcel()"><i class="fa-solid fa-download"></i></p-button>
+        </div>
+        <div class="field col-12 md:col-2">
+            <p-button label="Download PDF" (click)="exportPdf()"><i class="fa-solid fa-download"></i></p-button>
+        </div>
+        <div class="field col-12 md:col-8 text-right">
+            <p-button class="refresh-button" (click)="refreshData()"><i class="fa-solid fa-arrows-rotate"></i></p-button>
+        </div>
+    </div>
+    <table class="table" #summaryTable>
+        <thead>
+            <tr>
+                <th>Process No</th>
+                <th>Process Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let process of displayedProcesses">
+                <td>{{ process.process_id }}</td>
+                <td>{{ process.process_name }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+  <style>
+        .refresh-button {
+                float: right;
+            }
+    .button-container {
+        display: flex; 
+    }
+    .icon-button {
+        border: 1px solid rgba(0, 0, 0, 0.2); 
+        cursor: pointer;
+        padding: 3px 8px;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+        border-radius: 9px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7); 
+    }
+    .icon-button:hover {
+        background-color: rgba(0, 0, 0, 1);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    }
+    .edit-button {
+        background-color: whitesmoke; 
+        color: black; 
+    }
+    .delete-button {
+        background-color: whitesmoke; 
+        color: black; 
+    }
+    .icon-button:last-child {
+        margin-right: 0;
+    }
+    .icon-button i {
+        margin-right: 5px; 
+        font-size: 14px; 
+    }
+    .icon-button:hover {
+        filter: brightness(90%); 
+    }
+    .icon-button:hover {
+        transform: scale(1.1); 
+    }
+    .edit-button:hover {
+        background-color: rgb(23, 195, 252); 
+    }   
+    .delete-button:hover {
+        background-color: rgb(245, 61, 61); 
+    }
+    
+    
+    /* app.component.css */
+    .table-container {
+        margin-top: 20px;
+    }
+  
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+  
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+    }
+  
+    .table th {
+        background-color: #f2f2f2;
+    }
+  
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+  </style>

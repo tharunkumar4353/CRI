@@ -1,0 +1,334 @@
+<!-- <div class="card">
+    <h4>Program Download</h4>
+    <hr>
+
+    <div class="grid p-fluid mt-1">
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="custcode"  (click)="showcustcodeDialog()"/>
+                <label for="custcode">Customer Code</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="fgname" (click)="showfgnameDialog()"/>  
+                <label for="fgname">FG Name</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="itemid"  (click)="showItemDialog = true"/>
+                <label for="itemid">Item Id</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="itemname" (click)="showPartNameDialog = true" />
+                <label for="itemname">Item Name</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input pInputText id="processname" [(ngModel)]="processname" (click)="showOptionDialog1()"/>
+                <label for="processname">Process Name</label>
+            </span>
+        </div>
+
+    </div>    
+    <div class="field col-12 md:col-4">
+        <p-button label="Download File" (click)="downloadProgram()">
+            <i class="fa-solid fa-download"></i>
+        </p-button>
+    </div>
+</div> -->
+
+
+<div class="card">
+    <h4>Program Download</h4>
+    <hr>
+    <div class="grid p-fluid mt-1">
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <p-calendar [(ngModel)]="date" dateFormat="dd-mm-yy"></p-calendar>
+                <label for="date">Date</label>
+            </span>
+        </div>        
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="custcode"  (click)="showcustcodeDialog()"/>
+                <label for="custcode">Customer Code</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="fgname" (click)="showfgnameDialog()"/>  
+                <label for="fgname">FG Name</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="itemid"  (click)="showItemDialog = true"/>
+                <label for="itemid">Item Id</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input type="text" pInputText [(ngModel)]="itemname" (click)="showPartNameDialog = true" />
+                <label for="itemname">Item Name</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input pInputText id="processname" [(ngModel)]="processname" (click)="showOptionDialog1()"/>
+                <label for="processname">Process Name</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-2">
+            <p-button label="Search" (click)="searchData()">
+                <i class="fa-solid fa-search"></i>
+              </p-button>              
+        </div>
+        <div class="field col-12 md:col-2">
+            <p-button label="Reset" class="p-button-secondary" (click)="resetFields()">
+              <i class="fa-solid fa-rotate-left"></i>
+            </p-button>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <!-- <th>S.No</th> -->
+                 <th>Date</th>
+                <th>Customer Code</th>
+                <th>FG Name</th>
+                <th>Item Code</th>
+                <th style="width: 350px">Item Name</th>
+                <th>Process Name</th>
+                <th>Setter Name</th>
+                <th style="width: 100px">File Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let part of process">
+                <!-- <td>{{ part.ID }}</td> -->
+                <td *ngIf="!isEditMode || selectedRow?.ID !== part.ID">{{part.date | date: 'dd-MM-yyyy'}}</td>
+                <td *ngIf="isEditMode && selectedRow?.ID === part.ID">
+                    <input pInputText [(ngModel)]="selectedRow.date" type="date"/>
+                </td>
+                <td>{{ part.CustomerCode }}</td>
+                <td>{{ part.FGName }}</td>
+                <td>{{ part.ItemID }}</td>
+                <td>{{ part.ItemName }}</td>
+                <td>{{ part.ProcessName }}</td>
+                <td *ngIf="!isEditMode || selectedRow?.ID !== part.ID">{{ part.SetterName }}</td>
+                <td *ngIf="isEditMode && selectedRow?.ID === part.ID">
+                    <input pInputText [(ngModel)]="selectedRow.SetterName" />
+                </td>
+                <td>
+                    <!-- Display file name when not in edit mode or not the selected row -->
+                    <span *ngIf="!isEditMode || selectedRow?.ID !== part.ID">
+                        {{ extractFileName(part.FilePath) }}
+                    </span>
+                
+                    <!-- Edit mode: Display file name if no new file is uploaded, and allow file selection -->
+                    <div *ngIf="isEditMode && selectedRow?.ID === part.ID">
+                        <span *ngIf="!uploadedFile">{{ extractFileName(selectedRow.FilePath) }}</span>
+                        <input type="file" (change)="handleFileInput($event)" />
+                    </div>
+                    
+                </td>
+                
+                
+                <td>
+                  <button
+                    pButton
+                    icon="pi pi-download"
+                    class="p-button-rounded p-button-success"
+                    (click)="downloadFile(part.ID, extractFileName(part.FilePath))"
+                  ></button>
+                  <button
+                    style="margin-left: 5px;"
+                    pButton
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-warning"
+                    (click)="editRow(part)"
+                  ></button>
+                  <button
+                    style="margin-left: 5px;"
+                    pButton
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-danger"
+                    (click)="deleteRow(part.ID)"
+                  ></button>
+                  <button
+                    *ngIf="isEditMode && selectedRow?.ID === part.ID"
+                    style="margin-left: 5px;"
+                    pButton
+                    icon="pi pi-save"
+                    class="p-button-rounded p-button-succes"
+                    (click)="saveRow()"
+                  ></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+       
+          
+</div>
+
+  <!-- cust code -->
+<p-dialog [(visible)]="showcustcode"   [modal]="true" [style]="{ width: '380px' }"
+(onHide)="hidecustcodeDialog()">
+<p-header>
+<div class="grid p-fluid mt-1">
+  <div class="field col-12 md:col-2">
+    <div style="display: flex; align-items: center;">
+      <span>Customer Code</span>
+      <div
+        style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+        <input type="text" pInputText [(ngModel)]="searchcustcode"
+          (input)="filtercustcode()" placeholder="Search"
+          [ngStyle]="{width: '200px'}" />
+        <i class="fa fa-search"
+          style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</p-header>
+<div>
+<ul>
+  <li *ngFor="let emp of filteredcustcodeOptions" class="option-item" (click)="selectcustcode(emp)">
+    {{ emp.name }}</li>
+</ul>
+</div>
+</p-dialog>
+
+<!-- fgname -->
+<p-dialog [(visible)]="showfgname" [modal]="true" [style]="{ width: '380px' }"
+(onHide)="hidefgnameDialog()">
+<p-header>
+<div class="grid p-fluid mt-1">
+  <div class="field col-12 md:col-2">
+    <div style="display: flex; align-items: center;">
+      <span>FG Name</span>
+      <div
+        style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+        <input type="text" pInputText [(ngModel)]="searchfgname"
+          (input)="filterfgname()" placeholder="Search"
+          [ngStyle]="{width: '200px'}" />
+        <i class="fa fa-search"
+          style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</p-header>
+<div>
+<ul>
+  <li *ngFor="let emp of filteredfgnameOptions" class="option-item" (click)="selectfgname(emp, row, 'fgname')">
+    {{ emp.name }}</li>
+</ul>
+</div>
+</p-dialog>
+
+<!-- part id -->
+<p-dialog [(visible)]="showItemDialog" [modal]="true" [style]="{ width: '370px' }"
+(onHide)="showItemDialog = false">
+<p-header>
+<div style="display: flex; align-items: center; justify-content: space-between;">
+  <span>Part Id</span>
+  <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+    <input type="text" pInputText [(ngModel)]="searchTerm" placeholder="Search..." style="width: 100%;"
+      (input)="filterOptions()" />
+    <i class="fa fa-search" style="position: absolute; right: 10px; color: #888;"></i>
+  </div>
+</div>
+</p-header>
+<div>
+<ul class="no-bullets">
+  <li *ngFor="let option of filteredOptions" class="option-item" 
+    (click)="selectItemOrProcess(option)">
+    {{ option.name }}
+  </li>
+</ul>
+</div>
+</p-dialog>
+
+<!-- part Name -->
+<p-dialog [(visible)]="showPartNameDialog" [modal]="true" [style]="{ width: '370px' }"
+(onHide)="showPartNameDialog = false">
+<p-header>
+<div style="display: flex; align-items: center; justify-content: space-between;">
+  <span>Part Name</span>
+  <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+    <input type="text" pInputText [(ngModel)]="searchPartName" placeholder="Search by Part Name..."
+      style="width: 100%;" (input)="filterOptionspart()" />
+    <i class="fa fa-search" style="position: absolute; right: 10px; color: #888;"></i>
+  </div>
+</div>
+</p-header>
+<div>
+<ul class="no-bullets">
+  <!-- Ensure filteredOptionspart is correctly used here -->
+  <li *ngFor="let option of filteredOptionspart" class="option-item" 
+    (click)="selectItemOrProcess2(option)">
+    {{ option.name }}
+  </li>
+</ul>
+</div>
+</p-dialog>
+
+<!-- process Name -->
+<p-dialog [(visible)]="showCustomerDialog" [modal]="true" [style]="{ width: '400px' }"
+(onHide)="hideOptionDialog1()">
+<p-header>
+<div style="display: flex; align-items: center;">
+  <span>Process Id</span>
+  <div style="position: relative; margin-left: auto; margin-left: 15px; margin-top: 6px;">
+    <input type="text" pInputText [(ngModel)]="searchName" placeholder="Search..."
+      style="width: 100%;" (input)="filterProcessOptions()" />
+    <i class="fa fa-search"
+      style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+  </div>
+</div>
+</p-header>
+<div>
+<ul class="no-bullets">
+  <li *ngFor="let option of filteredProcessOptions" class="option-item"
+    (click)="selectItemOrProcess3(option)">
+    {{ option.name }}
+  </li>
+</ul>
+</div>
+</p-dialog>
+
+
+<style>
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .table td {
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: left;
+    }
+
+    .table th {
+      background-color: #f2f2f2;
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: center;
+
+    }
+
+    .table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+</style>

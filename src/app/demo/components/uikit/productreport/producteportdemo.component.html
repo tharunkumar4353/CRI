@@ -1,0 +1,141 @@
+<div class="card">
+  <h4>OEE Reports</h4>
+  <hr>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-9 md:col-2">
+      <p-button label="Download Excel" ><i class="fa-solid fa-download"></i></p-button>
+    </div>
+    <!-- <div class="field col-12 md:col-2">
+      <p-button label="Download PDF" (click)="exportPdf()"><i class="fa-solid fa-download"></i></p-button>
+    </div> -->
+  </div>
+  <hr>
+
+
+  <div class="grid p-fluid mt-1">
+    <!-- New Date Range Fields -->
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="fromDate" dateFormat="dd-mm-yy"></p-calendar>
+        <label>From Date</label>
+      </span>
+    </div>
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="toDate" [minDate]="fromDate" dateFormat="dd-mm-yy"></p-calendar>
+        <label>To Date</label>
+      </span>
+    </div>
+
+    <div class="field col-12 md:col-1">
+      <p-button label="Filter"><i class="fa-solid fa-magnifying-glass"></i></p-button>
+    </div>
+    <div class="field col-12 md:col-1">
+      <p-button label="Reset"><i class="fa-solid fa-arrows-rotate"></i></p-button>
+    </div>
+  </div>
+
+  <div id="planreports">
+    <table class="table">
+      <tr>
+          <th rowspan="2">MACHINE NAME</th>
+          <th colspan="5" class="availability">AVAILABILITY</th>
+          <th colspan="5" class="performance">PERFORMANCE</th>
+          <th colspan="4" class="quality">QUALITY</th>
+          <th rowspan="2" class="oee">OEE %</th>
+      </tr>
+      <tr>
+          <!-- Availability -->
+          <th class="availability">(A)<br>Planned Production Time</th>
+          <th class="availability">(B)<br>Machine Planned Downtime</th>
+          <th class="availability">(C)<br>Machine Unplanned Downtime</th>
+          <th class="availability">(D)<br>Machine Available Operating Time</th>
+          <th class="availability">(E)<br>Machine Availability (%)</th>
+          <!-- Performance -->
+          <th class="performance">(F)<br>Planned Cycle Time</th>
+          <th class="performance">(G)<br>Actual Cycle Time</th>
+          <th class="performance">(H)<br>Production Qty</th>
+          <th class="performance">(I)<br>Expected Production Output</th>
+          <th class="performance">(J)<br>Performance (%)</th>
+          <!-- Quality -->
+          <th class="quality">(K)<br>Accepted Qty</th>
+          <th class="quality">(L)<br>Rework Qty</th>
+          <th class="quality">(M)<br>Rejection Qty</th>
+          <th class="quality">(N)<br>Quality (%)</th>
+      </tr>
+      <tr>
+          <td >CNC-01</td>
+          <td class="availability">8 hrs</td>
+          <td class="availability">1 hr</td>
+          <td class="availability">30 min</td>
+          <td class="availability">6.5 hrs</td>
+          <td class="availability">81.25%</td>
+          <td class="performance">5 min</td>
+          <td class="performance">6 min</td>
+          <td class="performance">500</td>
+          <td class="performance">520</td>
+          <td class="performance">96.15%</td>
+          <td class="quality">480</td>
+          <td class="quality">10</td>
+          <td class="quality">10</td>
+          <td class="quality">92.31%</td>
+          <td class="oee">72.50%</td>
+      </tr>
+      <!-- Add more rows as needed -->
+  </table>
+  </div>
+</div>
+
+
+<style>
+    .availability{
+    background-color: #F2DCDB ;
+  }
+
+  .performance{
+    background-color: #DAEEF3 ;
+  }
+  .quality{
+    background-color: #CCC0DA ;
+  }
+
+  .oee{
+    background-color: #FFC000 ;
+  }
+
+
+  
+
+  .option-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .table-container {
+    margin-top: 20px;
+  }
+
+  .card{
+    width: 2400px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid #706c6c;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .table th {
+    text-align: center;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>

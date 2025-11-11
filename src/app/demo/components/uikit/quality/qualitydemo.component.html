@@ -1,0 +1,145 @@
+<div class="card">
+  <div class="card-header">
+    <h4>Quality</h4>
+    <!-- <p-button label="Summary" [routerLink]="'/checkno'" class="summary-button"></p-button> -->
+  </div>
+  <hr>
+  <table class="table">
+    <tr>
+      <th>Plan Number</th>
+      <th>Date</th>
+      <th>Machine Number</th>
+      <th>Work Order</th>
+      <th>Customer Code</th>
+      <th>FG Name</th>
+      <th>Part-Process-Id</th>
+
+      <th>Part Id</th>
+      <th>Part Name</th>
+      <th>Process Name</th>
+      <th>Assigned Quantity</th>
+      <th>Setter Name</th>
+      <th>Operator Name</th>
+      <th style="width: 60px;">Accepted Count</th>
+      <th style="width: 60px;">Rejection</th>
+      <th>Rework</th>
+      <th >Reason</th>
+      <th>Status</th>
+    </tr>
+    <tr *ngFor="let part of data">
+      <td>{{part.custom_id}}</td>
+      <td style="width:110px;">{{ part.date | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ part.machineno }}</td>
+      <td>{{ part.work_order }}</td>
+
+      <td>{{part.cust_code}}</td>
+      <td>{{part.fg_name}}</td>
+      <td>{{part.itemprocess_id}}</td>
+
+      <td>{{ part.itemcode }}</td>
+      <td>{{ part.itemname }}</td>
+      <td>{{ part.process_name }}</td>
+      <td >{{ part.planquantity }}</td>
+      <td>{{ part.settername }}</td>
+      <td>{{ part.operatorname }}</td>
+
+      <td><input type="text" pInputText [(ngModel)]="part.acceptedCount" placeholder="Enter" style="width: 60px;"/></td>
+      <td><input type="text" pInputText [(ngModel)]="part.rejection" placeholder="Enter" style="width: 60px;"/></td>
+      <td><input type="text" pInputText [(ngModel)]="part.rework" placeholder="Enter"/></td>
+      <td><input type="text" pInputText [(ngModel)]="part.reason" placeholder="Enter"/></td>
+      <td>
+        <p-button label="Submit" severity="success" (click)="submitQualityData(part)"></p-button>
+      </td>
+    </tr>
+  </table>
+  
+</div>
+
+<div class="card">
+  <h4>Today's Quality Summary Data</h4>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Plan Number</th>
+        <th>Date</th>
+        <th>Machine Name</th>
+        <th>Work Order</th>
+        <th>Customer Code</th>
+        <th>FG Name</th>
+        <th>Part-Process-Id</th>
+
+        <th>Part Id</th>
+        <th>Part Name</th>
+        <th>Process Name</th>
+        <th>Assigned Quantity</th>
+        <th>Setter Name</th>
+        <th>Operator Name</th>
+        <th>Accepted Count</th>
+        <th>Rejection</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let part of process">
+        <td>{{part.unique_id}}</td>
+        <td>{{ part.date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ part.machine_name }}</td>
+        <td>{{ part.work_order }}</td>
+
+        <td>{{part.cust_code}}</td>
+        <td>{{part.fg_name}}</td>
+        <td>{{part.itemprocess_id}}</td>
+
+        <td>{{ part.part_id }}</td>
+        <td>{{ part.part_name }}</td>
+        <td>{{ part.process_name }}</td>
+        <td>{{ part.planned_quantity }}</td>
+        <td>{{ part.setter_name }}</td>
+        <td>{{ part.operator_name }}</td>
+        <td>{{ part.accept }}</td>
+        <td>{{ part.reject }}</td>
+        <td>{{ part.reason }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<style>
+.card {
+    width: 2200px;
+  }
+
+
+
+
+
+.table-container {
+  margin-top: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 15px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  text-align: center;
+
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+</style>

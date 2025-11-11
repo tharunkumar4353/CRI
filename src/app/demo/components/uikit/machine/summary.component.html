@@ -1,0 +1,528 @@
+<div class="card">
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-11">
+      <h4>Summary Table</h4>
+      <hr>
+    </div>
+    <div class="field col-12 md:col-1 text-right">
+      <p-button class="refresh-button" (click)="goBack()"><i class="fa-solid fa-arrow-left"></i></p-button>
+    </div>
+  </div>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-9 md:col-2">
+      <p-button label="Download Excel" (click)="exportExcel()"><i class="fa-solid fa-download"></i></p-button>
+    </div>
+    <div class="field col-12 md:col-2">
+      <p-button label="Download PDF" (click)="exportPdf()"><i class="fa-solid fa-download"></i></p-button>
+    </div>
+  </div>
+
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-2">
+      <p-dropdown [options]="machines" [(ngModel)]="selectedMachine" placeholder="Select Machine"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-2">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="dateFrom" dateFormat="dd-mm-yy"/>
+        <label for="datefrom">Date From</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-2">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="dateTo" [minDate]="dateFrom" dateFormat="dd-mm-yy"/>
+        <label for="dateto">Date To</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-2">
+      <span class="p-float-label">
+        <p-button label="Search" (click)="onSubmit()"></p-button>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="card" id="card">
+  <div id="summary-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Action</th>
+
+          <th>Plan Number</th>
+          <th style="width:120px;">Date</th>
+          <th>Machine Number</th>
+          <!-- <th>Plan Number</th> -->
+          <th>Work Order</th>
+          <th>Customer Code</th>
+          <th>FG Name</th>
+          <th>Part-Process-Id</th>
+
+          <th>Part Id</th>
+          <th class="partname">Part Name</th>
+          <th>Total Planned Quantity</th>
+          <th>Process Id</th>
+          <th>Process Name</th>
+          <TH>Running/Setting</TH>
+          <th>Setter Name</th>
+          <th>Operator Name</th>
+          <th>Planned Cycle Time</th>
+          <th class="custom-calendar input">Start Time</th>
+          <th class="custom-calendar input">End Time</th>
+          <th>Assigned Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paginatedProcess">
+          <td>
+            <button class="icon-button edit-button" *ngIf="!item.isEditing" (click)="editRecord(item)">
+              <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+
+            <button class="icon-button save-button" *ngIf="item.isEditing" (click)="saveRecord(item)">
+              <i class="fa-regular fa-floppy-disk"></i>
+            </button>
+            <div class="deletebutton">
+              <button class="icon-button delete-button" (click)="deleteRecord(item.id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+          <td>{{ item.custom_id }}</td>
+
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editDate">
+              {{ item.date | date: 'dd-MM-yyyy' }}
+            </ng-container>
+            <ng-template #editDate>
+              <input pInputText [(ngModel)]="item.date" type="date" [value]="formatDateForInput(item.date)" />
+            </ng-template>
+          </td>
+
+
+
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editMachineNumber">
+              {{ item.machineno }}
+            </ng-container>
+            <ng-template #editMachineNumber>
+              <input pInputText [(ngModel)]="item.machineno" (click)="openDialog(item)" />
+            </ng-template>
+          </td>
+
+          <!-- <td>            
+            <ng-container *ngIf="!item.isEditing; else editplannumber">
+            {{ item.plannumber }}
+          </ng-container>
+          <ng-template #editplannumber>
+            <input pInputText [(ngModel)]="item.plannumber" />
+          </ng-template></td> -->
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editWorkorder">
+              {{ item.work_order }}
+            </ng-container>
+            <ng-template #editWorkorder>
+              <input pInputText [(ngModel)]="item.work_order" (click)="showworkorderDialog(item)" />
+            </ng-template>
+          </td>
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editCustcode">
+              {{ item.cust_code }}
+            </ng-container>
+            <ng-template #editCustcode>
+              <input pInputText [(ngModel)]="item.cust_code" (click)="showcustcodeDialog(item)" />
+              <!-- Pass the item -->
+            </ng-template>
+          </td>
+
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editFgname">
+              {{item.fg_name}}
+            </ng-container>
+            <ng-template #editFgname>
+              <input pInputText [(ngModel)]="item.fg_name" (click)="showfgnameDialog(item)" />
+            </ng-template>
+          </td>
+          <td>{{item.itemprocess_id}}</td>
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editItemcode">
+              {{ item.itemcode }}
+            </ng-container>
+            <ng-template #editItemcode>
+              <input pInputText [(ngModel)]="item.itemcode" (click)="showOptionDialog1(item)"/>
+            </ng-template>
+          </td>
+          <td class="partname">
+            <ng-container *ngIf="!item.isEditing; else editItemname">
+              {{ item.itemname }}
+            </ng-container>
+            <ng-template #editItemname>
+              <input pInputText [(ngModel)]="item.itemname" />
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editQuantity">
+              {{ item.quantity }}
+            </ng-container>
+            <ng-template #editQuantity>
+              <input pInputText [(ngModel)]="item.quantity" />
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editProcessId">
+              {{ item.process_id }}
+            </ng-container>
+            <ng-template #editProcessId>
+              <input pInputText [(ngModel)]="item.process_id" />
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editProcessName">
+              {{ item.process_name }}
+            </ng-container>
+            <ng-template #editProcessName>
+              <input pInputText [(ngModel)]="item.process_name" />
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editprocesstype">
+              {{ item.processtype }}
+            </ng-container>
+            <ng-template #editprocesstype>
+              <input pInputText [(ngModel)]="item.processtype" />
+
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editSetterName">
+              {{ item.settername }}
+            </ng-container>
+            <ng-template #editSetterName>
+              <input pInputText [(ngModel)]="item.settername" (click)="showEmployeeDialog(item)" />
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editOperatorName">
+              {{ item.operatorname }}
+            </ng-container>
+            <ng-template #editOperatorName>
+              <input pInputText [(ngModel)]="item.operatorname" (click)="showEmployeeDialog1(item)" />
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editPlannedCycleTime">
+              {{ item.plannedcycletime }}
+            </ng-container>
+            <ng-template #editPlannedCycleTime>
+              <input pInputText [(ngModel)]="item.plannedcycletime" />
+            </ng-template>
+          </td>
+          <td class="custom-calendar input">
+            <ng-container *ngIf="!item.isEditing; else editStartTime">
+              {{ formatTime1(item.starttime) }}
+            </ng-container>
+            <ng-template #editStartTime>
+              <p-calendar inputId="calendar-timeonly" [(ngModel)]="item.starttime" [timeOnly]="true"
+                [showSeconds]="false" [hourFormat]="24" class="custom-calendar input">
+              </p-calendar>
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editEndTime">
+              {{ formatTime1(item.endtime) }}
+            </ng-container>
+            <ng-template #editEndTime>
+              <p-calendar inputId="calendar-timeonly" [(ngModel)]="item.endtime" [timeOnly]="true" [showSeconds]="false"
+                [hourFormat]="24" class="custom-calendar input">
+              </p-calendar>
+            </ng-template>
+          </td>
+
+          <td>
+            <ng-container *ngIf="!item.isEditing; else editPlanQuantity">
+              {{ item.planquantity }}
+            </ng-container>
+            <ng-template #editPlanQuantity>
+              <input pInputText [(ngModel)]="item.planquantity" />
+            </ng-template>
+          </td>
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div><br>
+  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+    [totalRecords]="filteredProcess.length" [rowsPerPageOptions]="[5,10, 15, 20, 30]" />
+
+  </div>
+
+<!-- Dialog Box -->
+<p-dialog header="Select Machine" [(visible)]="displayDialog" modal="true" [closable]="true" (onHide)="closeDialog()">
+  <div class="machine-list">
+    <ul>
+      <li *ngFor="let machine of machines" class="option-item" (click)="selectMachine(machine.value)">
+        {{ machine.label }}
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showcustcode" [modal]="true" [style]="{ width: '380px' }" (onHide)="hidecustcodeDialog()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>Customer Code</span>
+          <div style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchcustcode" (input)="filtercustcode()" placeholder="Search"
+              [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredcustcodeOptions" class="option-item" (click)="selectcustcode(emp)">
+        {{ emp.name }} <!-- Adjust according to your object structure -->
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+
+
+<p-dialog [(visible)]="showfgname" [modal]="true" [style]="{ width: '380px' }" (onHide)="hidefgnameDialog()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>FG Name</span>
+          <div style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchfgname" (input)="filterfgname()" placeholder="Search"
+              [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredfgnameOptions" class="option-item" (click)="selectfgname(emp)">
+        {{ emp.name }}</li>
+    </ul>
+  </div>
+</p-dialog>
+
+
+<p-dialog [(visible)]="showEmpDialog" [modal]="true" [style]="{ width: '380px' }" (onHide)="hideEmployeeDialog()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>Setter Name</span>
+          <div style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchEmp" (input)="filterEmployeeNames()" placeholder="Search"
+              [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredEmpOptions" class="option-item" (click)="selectemp(emp)">
+        {{ emp.name }}</li>
+    </ul>
+  </div>
+</p-dialog>
+
+
+<p-dialog [(visible)]="showEmpDialog1" [modal]="true" [style]="{ width: '380px' }" (onHide)="hideEmployeeDialog1()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>Operator Name</span>
+          <div style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchEmpop" (input)="filterEmployeeNamesop()"
+              placeholder="Search" [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredEmpOptionsop" class="option-item" (click)="selectemp1(emp)">
+        {{ emp.name }}</li>
+    </ul>
+  </div>
+</p-dialog>
+
+<!-- Dialog for selecting work order -->
+<p-dialog [(visible)]="showworkorder" [modal]="true" [style]="{ width: '380px' }" (onHide)="hideworkorderDialog()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>Work Order</span>
+          <div style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchworkorderpart" (input)="filterworkorderpart()"
+              placeholder="Search" [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+
+  <!-- Work order options list -->
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredworkorderOptions" class="option-item" (click)="selectworkorder(emp)">
+        {{ emp.name }}
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showItemDialog" [modal]="true" [style]="{ width: '370px' }"
+(onHide)="showItemDialog = false">
+<p-header>
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <span>Part Id</span>
+    <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+      <input type="text" pInputText [(ngModel)]="searchTerm" placeholder="Search..." style="width: 100%;"
+        (input)="filterOptions()" />
+      <i class="fa fa-search" style="position: absolute; right: 10px; color: #888;"></i>
+    </div>
+  </div>
+</p-header>
+<div>
+  <ul class="no-bullets">
+    <li *ngFor="let option of filteredOptions" class="option-item" 
+      (click)="selectItemOrProcess(option)">
+      {{ option.name }}
+    </li>
+  </ul>
+</div>
+</p-dialog>
+
+
+
+
+<style>
+  .custom-calendar {
+    padding-right: 10px;
+    margin-right: 80px;
+  }
+
+  .option-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+
+    #card{
+      width: 2400px;
+    }
+
+    .deletebutton {
+    margin-top: 10px;
+  }
+  .icon-button {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding: 3px 8px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .icon-button:hover {
+    background-color: rgba(0, 0, 0, 1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+  }
+
+  .icon-button i {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+
+  .edit-button {
+    background-color: rgb(145, 222, 248);
+    color: black;
+  }
+
+  .edit-button:hover {
+    background-color: rgb(145, 222, 248);
+  }
+
+  .delete-button {
+    background-color: rgb(238, 139, 139);
+    color: black;
+  }
+
+  .delete-button:hover {
+    background-color: rgb(238, 139, 139);
+  }
+
+  .save-button {
+    background-color: rgb(163, 248, 163);
+    color: black;
+  }
+
+  .save-button:hover {
+    background-color: rgb(163, 248, 163);
+    /* Green background on hover */
+  }
+    .footerbutton {
+      margin-top: 10px;
+    }
+
+    .refresh-button {
+      float: right;
+    }
+
+    .table-container {
+      margin-top: 20px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .table td {
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: left;
+    }
+
+    .table th {
+      background-color: #f2f2f2;
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: center;
+
+    }
+
+    .table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>

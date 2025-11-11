@@ -1,0 +1,218 @@
+<div class="card">
+  <h4>Planned Reports</h4>
+  <hr>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-9 md:col-2">
+      <p-button label="Download Excel" (click)="exportExcel()"><i class="fa-solid fa-download"></i></p-button>
+    </div>
+    <!-- <div class="field col-12 md:col-2">
+      <p-button label="Download PDF" (click)="exportPdf()"><i class="fa-solid fa-download"></i></p-button>
+    </div> -->
+  </div>
+  <hr>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <input type="text" pInputText [(ngModel)]="custcode"  (click)="showcustcodeDialog()"/>
+        <label>Customer Code</label>
+      </span>
+    </div>
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <input type="text" pInputText [(ngModel)]="fgname" (click)="showfgnameDialog()"/>  
+        <label>FG Name</label>
+      </span>
+    </div>
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <input type="text" pInputText [(ngModel)]="value5"  (click)="showItemDialog = true"/>
+        <label>Item Code</label>
+      </span>
+    </div>
+
+    <!-- New Date Range Fields -->
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="fromDate" dateFormat="dd-mm-yy"></p-calendar>
+        <label>From Date</label>
+      </span>
+    </div>
+    <div class="field col-9 md:col-2">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="toDate" [minDate]="fromDate" dateFormat="dd-mm-yy"></p-calendar>
+        <label>To Date</label>
+      </span>
+    </div>
+
+    <div class="field col-12 md:col-1">
+      <p-button label="Filter" (click)="applyFilters()"><i class="fa-solid fa-magnifying-glass"></i></p-button>
+    </div>
+    <div class="field col-12 md:col-1">
+      <p-button label="Reset" (click)="resetFilters()"><i class="fa-solid fa-arrows-rotate"></i></p-button>
+    </div>
+  </div>
+
+  <div id="planreports">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Plan Date</th>
+          <th>Machine Name</th>
+          <th>Planned Start Date</th>
+          <th>Planned Start Time</th>
+          <th>Planned End Date</th>
+          <th>Planned End Time</th>
+          <th>Planned Duration(In Hrs)</th>
+          <th>Work Order No.</th>
+          <th>Cust Code</th>
+          <th>FG Name</th>
+          <th>Item Code</th>
+          <th>Item Name</th>
+          <th>Process Name</th>
+          <th>Setting/Production</th>
+          <th>Setter/Operator Name</th>
+          <th>Planned Qty</th>
+          <th>Planned Cycle Time (In Mins)</th>
+          <th>Program Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let part of process; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ part.date | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ part.machineno }}</td>
+          <td>{{ part.date | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ formatTime1(part.starttime) }}</td>
+          <td>{{ part.date | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ formatTime1(part.endtime) }}</td>
+          <td>{{part.durationHoursPlan}}</td>
+          <td>{{ part.work_order }}</td>
+          <td>{{ part.cust_code }}</td>
+          <td>{{ part.fg_name }}</td>
+          <td>{{ part.itemcode }}</td>
+          <td>{{ part.itemname }}</td>
+          <td>{{part.process_id}}</td>
+          <td>{{ part.processtype }}</td>
+          <td>{{ part.settername }} {{ part.operatorname }}</td>
+          <td>{{ part.planquantity }}</td>
+          <td>{{part.plannedcycletime}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- cust code -->
+<p-dialog [(visible)]="showcustcode"   [modal]="true" [style]="{ width: '380px' }"
+(onHide)="hidecustcodeDialog()">
+<p-header>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-2">
+      <div style="display: flex; align-items: center;">
+        <span>Customer Code</span>
+        <div
+          style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+          <input type="text" pInputText [(ngModel)]="searchcustcode"
+            (input)="filtercustcode()" placeholder="Search"
+            [ngStyle]="{width: '200px'}" />
+          <i class="fa fa-search"
+            style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-header>
+<div>
+  <ul>
+    <li *ngFor="let emp of filteredcustcodeOptions" class="option-item" (click)="selectcustcode(emp)">
+      {{ emp.name }}</li>
+  </ul>
+</div>
+</p-dialog>
+
+<!-- fgname -->
+<p-dialog [(visible)]="showfgname" [modal]="true" [style]="{ width: '380px' }"
+(onHide)="hidefgnameDialog()">
+<p-header>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-2">
+      <div style="display: flex; align-items: center;">
+        <span>FG Name</span>
+        <div
+          style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+          <input type="text" pInputText [(ngModel)]="searchfgname"
+            (input)="filterfgname()" placeholder="Search"
+            [ngStyle]="{width: '200px'}" />
+          <i class="fa fa-search"
+            style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-header>
+<div>
+  <ul>
+    <li *ngFor="let emp of filteredfgnameOptions" class="option-item" (click)="selectfgname(emp, row, 'fgname')">
+      {{ emp.name }}</li>
+  </ul>
+</div>
+</p-dialog>
+
+<!-- part id -->
+<p-dialog [(visible)]="showItemDialog" [modal]="true" [style]="{ width: '370px' }"
+(onHide)="showItemDialog = false">
+<p-header>
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <span>Part Id</span>
+    <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+      <input type="text" pInputText [(ngModel)]="searchTerm" placeholder="Search..." style="width: 100%;"
+        (input)="filterOptions()" />
+      <i class="fa fa-search" style="position: absolute; right: 10px; color: #888;"></i>
+    </div>
+  </div>
+</p-header>
+<div>
+  <ul class="no-bullets">
+    <li *ngFor="let option of filteredOptions" class="option-item" 
+      (click)="selectItemOrProcess(option)">
+      {{ option.name }}
+    </li>
+  </ul>
+</div>
+</p-dialog>
+
+
+<style>
+
+  .option-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .table-container {
+    margin-top: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .table th {
+    background-color: #f2f2f2;
+    text-align: center;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>

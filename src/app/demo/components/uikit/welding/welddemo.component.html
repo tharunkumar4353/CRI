@@ -1,0 +1,257 @@
+    <div class="card">
+        <h4>Program Master</h4>
+        <hr>
+        <div class="grid p-fluid mt-1">
+            <!-- <div class="field col-12 md:col-4">
+                <p-button label="Alter Settings" ><i class="fa-solid fa-download"></i></p-button>
+            </div> -->
+            <div class="field col-12 md:col-2">
+                <p-button label="Download program" routerLink="/furnace"><i class="fa-solid fa-download"></i></p-button>
+            </div>
+        </div>
+        <div class="grid p-fluid mt-1">
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" pInputText [(ngModel)]="custcode"  (click)="showcustcodeDialog()"/>
+                    <label for="custcode">Customer Code</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" pInputText [(ngModel)]="fgname" (click)="showfgnameDialog()"/>  
+                    <label for="fgname">FG Name</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" pInputText [(ngModel)]="value5"  (click)="showItemDialog = true"/>
+                    <label for="itemid">Item Id</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" pInputText [(ngModel)]="itemname" (click)="showPartNameDialog = true" />
+                    <label for="itemname">Item Name</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="processname" [(ngModel)]="processname" (click)="showOptionDialog1()"/>
+                    <label for="processname">Process Name</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input pInputText id="settername" [(ngModel)]="settername" />
+                    <label for="settername">Setter Name</label>
+                </span>
+            </div>
+        </div>    
+            <div class="grid p-fluid mt-1">
+                <div class="field col-12 md:col-2">
+                    <label for="file-upload" class="file-upload-label">
+                      <span class="file-upload-text">Choose File</span>
+                    </label>
+                    <input type="file" id="file-upload" (change)="onFileSelected($event)" class="file-upload-input" />
+                    <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                  </div>
+                  
+                <div class="field col-12 md:col-2">
+                    <p-button label="Upload Program" (click)="uploadProgram()">
+                        <i class="fa-solid fa-upload"></i>
+                    </p-button>
+                </div>
+            </div>
+    </div>
+  
+
+    
+
+      <!-- cust code -->
+  <p-dialog [(visible)]="showcustcode"   [modal]="true" [style]="{ width: '380px' }"
+  (onHide)="hidecustcodeDialog()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>Customer Code</span>
+          <div
+            style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchcustcode"
+              (input)="filtercustcode()" placeholder="Search"
+              [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search"
+              style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredcustcodeOptions" class="option-item" (click)="selectcustcode(emp)">
+        {{ emp.name }}</li>
+    </ul>
+  </div>
+  </p-dialog>
+  
+  <!-- fgname -->
+  <p-dialog [(visible)]="showfgname" [modal]="true" [style]="{ width: '380px' }"
+  (onHide)="hidefgnameDialog()">
+  <p-header>
+    <div class="grid p-fluid mt-1">
+      <div class="field col-12 md:col-2">
+        <div style="display: flex; align-items: center;">
+          <span>FG Name</span>
+          <div
+            style="position: relative; margin-left: auto; margin-left:20px; margin-top:6px;">
+            <input type="text" pInputText [(ngModel)]="searchfgname"
+              (input)="filterfgname()" placeholder="Search"
+              [ngStyle]="{width: '200px'}" />
+            <i class="fa fa-search"
+              style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul>
+      <li *ngFor="let emp of filteredfgnameOptions" class="option-item" (click)="selectfgname(emp, row, 'fgname')">
+        {{ emp.name }}</li>
+    </ul>
+  </div>
+  </p-dialog>
+  
+  <!-- part id -->
+  <p-dialog [(visible)]="showItemDialog" [modal]="true" [style]="{ width: '370px' }"
+  (onHide)="showItemDialog = false">
+  <p-header>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span>Part Id</span>
+      <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+        <input type="text" pInputText [(ngModel)]="searchTerm" placeholder="Search..." style="width: 100%;"
+          (input)="filterOptions()" />
+        <i class="fa fa-search" style="position: absolute; right: 10px; color: #888;"></i>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul class="no-bullets">
+      <li *ngFor="let option of filteredOptions" class="option-item" 
+        (click)="selectItemOrProcess(option)">
+        {{ option.name }}
+      </li>
+    </ul>
+  </div>
+  </p-dialog>
+
+  <!-- part Name -->
+  <p-dialog [(visible)]="showPartNameDialog" [modal]="true" [style]="{ width: '370px' }"
+  (onHide)="showPartNameDialog = false">
+  <p-header>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span>Part Name</span>
+      <div style="position: relative; display: flex; align-items: center; margin-left: 15px;">
+        <input type="text" pInputText [(ngModel)]="searchPartName" placeholder="Search by Part Name..."
+          style="width: 100%;" (input)="filterOptionspart()" />
+        <i class="fa fa-search" style="position: absolute; right: 10px; color: #888;"></i>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul class="no-bullets">
+      <!-- Ensure filteredOptionspart is correctly used here -->
+      <li *ngFor="let option of filteredOptionspart" class="option-item" 
+        (click)="selectItemOrProcess2(option)">
+        {{ option.name }}
+      </li>
+    </ul>
+  </div>
+  </p-dialog>
+
+  <!-- process Name -->
+  <p-dialog [(visible)]="showCustomerDialog" [modal]="true" [style]="{ width: '400px' }"
+  (onHide)="hideOptionDialog1()">
+  <p-header>
+    <div style="display: flex; align-items: center;">
+      <span>Process Id</span>
+      <div style="position: relative; margin-left: auto; margin-left: 15px; margin-top: 6px;">
+        <input type="text" pInputText [(ngModel)]="searchName" placeholder="Search..."
+          style="width: 100%;" (input)="filterProcessOptions()" />
+        <i class="fa fa-search"
+          style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"></i>
+      </div>
+    </div>
+  </p-header>
+  <div>
+    <ul class="no-bullets">
+      <li *ngFor="let option of filteredProcessOptions" class="option-item"
+        (click)="selectItemOrProcess3(option)">
+        {{ option.name }}
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+
+  
+  <style>
+
+
+/* Style for the label (button style) */
+.file-upload-label {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the label */
+.file-upload-label:hover {
+  background-color: #0056b3;
+}
+
+/* Hide the actual file input field */
+.file-upload-input {
+  display: none;
+}
+
+/* Display the file name when a file is selected */
+.file-name {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #555;
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+  
+    .table th,
+    .table td {
+      border: 1px solid #706c6c;
+      padding: 15px;
+      text-align: left;
+    }
+  
+    .table th {
+      text-align: center;
+    }
+  
+    .table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+  

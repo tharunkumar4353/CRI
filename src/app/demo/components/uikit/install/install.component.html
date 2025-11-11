@@ -1,0 +1,337 @@
+<div class="card">
+    <h4>Machine Installation Record</h4>
+    <hr>
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-4">
+            <p-button (click)="general()" label="General Information" severity="danger"></p-button>
+        </div>
+        <div class="field col-12 md:col-4">
+            <p-button (click)="install()" label="Installation Details" severity="danger"></p-button>
+        </div>
+    </div>
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-4">
+            <p-button (click)="machine()" label="Machine Specification" severity="danger"></p-button>
+        </div>
+        <div class="field col-12 md:col-4">
+            <p-button (click)="safety()" label="Safety and Compliance" severity="danger"></p-button>
+        </div>
+    </div>
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-4">
+            <p-button (click)="initial()" label="Initial Testing Calibration" severity="danger"></p-button>
+        </div>
+        <div class="field col-12 md:col-4">
+            <p-button (click)="schedule()" label="Maintenance Schedule" severity="danger"></p-button>
+        </div>
+    </div>
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-4">
+            <p-button (click)="training()" label="Training and Documentation" severity="danger"></p-button>
+        </div>
+        <div class="field col-12 md:col-4">
+            <p-button (click)="warranty()" label="Warranty and Support" severity="danger"></p-button>
+        </div>
+    </div>
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-8">
+            <span class="p-float-label">
+                <textarea rows="5" cols="30" pInputTextarea [autoResize]="true" [(ngModel)]="addpoint"></textarea>
+                <label for="mail">Additional Notes</label>
+            </span>
+        </div>
+    </div>
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input pInputText id="report" [(ngModel)]="report" />
+                <label for="report">Reported By</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input pInputText id="approve" [(ngModel)]="approve" />
+                <label for="approve">Approved By</label>
+            </span>
+        </div>
+    </div>
+
+    <div class="grid p-fluid mt-1" style="display: flex; justify-content: center;">
+        <div class="field col-12 md:col-2">
+            <p-button label="Submit" (click)="submitAll()"></p-button>
+        </div>
+        <div class="field col-12 md:col-2">
+            <p-button label="Summary" routerLink="suminstall"></p-button>
+        </div>
+    </div>
+</div>
+
+ 
+
+    <!-- General Information -->
+    <p-dialog header="General Information" [modal]="true" [(visible)]="visible1" [style]="{ width: '35rem', height:'50rem' }">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="machine" class="font-semibold w-6rem">Machine Name</label>
+            <input pInputText id="machine" class="flex-auto" autocomplete="off" placeholder="Enter Machine Name" [(ngModel)]="machinename" (click)="openMachineDetailsDialog()" />
+        </div> 
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="model" class="font-semibold w-6rem">Model Number</label>
+            <input pInputText id="model" class="flex-auto" autocomplete="off" placeholder="Enter Model Number" [(ngModel)]="modelnumber"/>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="serial" class="font-semibold w-6rem">Serial Number</label>
+            <input pInputText id="serial" class="flex-auto" autocomplete="off" placeholder="Enter Serial Number" [(ngModel)]="serialnumber"/>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="manufacturer" class="font-semibold w-6rem">Manufacturer</label>
+            <input pInputText id="manufacturer" class="flex-auto" autocomplete="off" placeholder="Enter Manufacturer" [(ngModel)]="manufactor"/>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="date" class="font-semibold w-6rem">Date of Installation</label>
+            <input type="date" id="date" name="datepicker" class="p-inputtext p-component" [(ngModel)]="dateinstall" placeholder="Enter Date">
+        </div>
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Cancel" severity="secondary" (click)="visible1 = false" />
+            <p-button label="Save" (click)="saveGeneralInfo()" />
+        </div>
+    </p-dialog>
+
+<!-- Installation Details -->
+<p-dialog header="Installation Details" [modal]="true" [(visible)]="visible2" [style]="{ width: '35rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="location" class="font-semibold w-6rem">Location</label>
+        <input pInputText id="location" class="flex-auto" autocomplete="off" placeholder="Enter Installation Location" [(ngModel)]="location"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="installed" class="font-semibold w-6rem">Installed By</label>
+        <input pInputText id="installed" class="flex-auto" autocomplete="off" placeholder="Name of Technician/Company" [(ngModel)]="installedBy"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="supervisior" class="font-semibold w-6rem">Installation Supervisor</label>
+        <input pInputText id="supervisior" class="flex-auto" autocomplete="off" placeholder="Name of Supervisor" [(ngModel)]="installationSupervisor"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="method" class="font-semibold w-6rem">Installation Method</label>
+        <input pInputText id="method" class="flex-auto" autocomplete="off" placeholder="Describe the Installation Process" [(ngModel)]="installationMethod"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible2 = false" />
+        <p-button label="Save" (click)="saveInstallationDetails()" />
+    </div>
+</p-dialog>
+
+
+   <!-- Machine Specification -->
+<p-dialog header="Machine Specification" [modal]="true" [(visible)]="visible3" [style]="{ width: '35rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="power" class="font-semibold w-6rem">Power Requirement</label>
+        <input pInputText id="power" class="flex-auto" autocomplete="off" placeholder="[e.g., Voltage, Amperage]" [(ngModel)]="powerRequirement"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="dimension" class="font-semibold w-6rem">Dimension</label>
+        <input pInputText id="dimension" class="flex-auto" autocomplete="off" placeholder="[e.g., Length x Width x Height]" [(ngModel)]="dimension"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="weight" class="font-semibold w-6rem">Weight</label>
+        <input pInputText id="weight" class="flex-auto" autocomplete="off" placeholder="[Enter Weight]" [(ngModel)]="weight"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="capacity" class="font-semibold w-6rem">Operational Capacity</label>
+        <input pInputText id="capacity" class="flex-auto" autocomplete="off" placeholder="[e.g., Units per Hour]" [(ngModel)]="operationalCapacity"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible3 = false" />
+        <p-button label="Save" (click)="saveMachineSpecification()" />
+    </div>
+</p-dialog>    
+
+<!-- Safety Compliance-->
+<p-dialog header="Safety Compliance" [modal]="true" [(visible)]="visible4" [style]="{ width: '55rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="safety" class="font-semibold w-6rem">Safety Features</label>
+        <input pInputText id="safety" class="flex-auto" autocomplete="off" placeholder="[List Safety Features]" [(ngModel)]="safetyFeatures" style="width: 10px;"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="standard" class="font-semibold w-6rem">Compliance Standards</label>
+        <input pInputText id="standard" class="flex-auto" autocomplete="off" placeholder="[List Applicable Standards]" [(ngModel)]="complianceStandards"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="inspect" class="font-semibold w-6rem">Safety Inspections Conducted</label>
+        <input pInputText id="inspect" class="flex-auto" autocomplete="off" placeholder="[Yes/No]" [(ngModel)]="safetyInspectionsConducted"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        
+        <label for="inspdate" class="font-semibold w-6rem">Inspection Date</label>
+        <input type="date" id="inspdate" name="datepicker" class="p-inputtext p-component" [(ngModel)]="inspectionDate"  placeholder="Enter Date">
+        
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible4 = false" />
+        <p-button label="Save" (click)="saveSafetyCompliance()" />
+    </div> 
+</p-dialog>      
+
+<!-- Initial Testing Calibration-->
+<p-dialog header="Initial Testing Calibration" [modal]="true" [(visible)]="visible5" [style]="{ width: '35rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="test" class="font-semibold w-6rem">Test Conducted</label>
+        <input pInputText id="test" class="flex-auto" autocomplete="off" placeholder="[Describe Tests Conducted]" [(ngModel)]="testConducted"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="result" class="font-semibold w-6rem">Results</label>
+        <input pInputText id="result" class="flex-auto" autocomplete="off" placeholder="[Enter Test Results]" [(ngModel)]="testResults"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="details" class="font-semibold w-6rem">Calibration Details</label>
+        <input pInputText id="details" class="flex-auto" autocomplete="off" placeholder="[Enter Calibration Info]" [(ngModel)]="calibrationDetails"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="caby" class="font-semibold w-6rem">Calibrated By</label>
+        <input pInputText id="caby" class="flex-auto" autocomplete="off" placeholder="[Name of Technician]" [(ngModel)]="calibratedBy"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible5 = false" />
+        <p-button label="Save" (click)="saveInitialTestingCalibration()" />
+    </div>
+</p-dialog>      
+
+<!-- Maintenance Schedule-->
+<p-dialog header="Maintenance Schedule" [modal]="true" [(visible)]="visible6" [style]="{ width: '55rem', height:'75rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="first" class="font-semibold w-6rem">First Maintenance Date</label>
+        <input type="date" id="first" name="datepicker" class="p-inputtext p-component" [(ngModel)]="firstMaintenanceDate"  placeholder="Enter Date">
+        
+        
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="routine" class="font-semibold w-6rem">Routine Maintenance Frequency</label>
+        <input pInputText id="routine" class="flex-auto" autocomplete="off" placeholder="[e.g., Monthly, Qtr]" [(ngModel)]="routineMaintenanceFrequency"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="next" class="font-semibold w-6rem">Next Scheduled Maintenance</label>
+        <input type="date" id="next" name="datepicker" class="p-inputtext p-component" [(ngModel)]="nextScheduledMaintenance"  placeholder="Enter Date">
+     
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible6 = false" />
+        <p-button label="Save" (click)="saveMaintenanceSchedule()" />
+    </div>
+</p-dialog>        
+
+<!-- Training and Documentation-->
+<p-dialog header="Training and Documentation" [modal]="true" [(visible)]="visible7" [style]="{ width: '40rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="train" class="font-semibold w-6rem">Training Provided</label>
+        <input pInputText id="train" class="flex-auto" autocomplete="off" placeholder="[Yes/No]" [(ngModel)]="trainingProvided"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="trdate" class="font-semibold w-6rem">Training Date</label>
+        <input type="date" id="trdate" name="datepicker" class="p-inputtext p-component" [(ngModel)]="trainingDate"  placeholder="Enter Date">
+
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="rename" class="font-semibold w-6rem">Trainer Name</label>
+        <input pInputText id="trname" class="flex-auto" autocomplete="off" placeholder="[Enter Name]" [(ngModel)]="trainerName"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="doc" class="font-semibold w-6rem">Documentation Provided</label>
+        <input pInputText id="doc" class="flex-auto" autocomplete="off" placeholder="[List Provided Doc]" [(ngModel)]="documentationProvided"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="user" class="font-semibold w-6rem">User Manuals</label>
+        <input pInputText id="user" class="flex-auto" autocomplete="off" placeholder="[Yes/No]" [(ngModel)]="userManuals"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible7 = false" />
+        <p-button label="Save" (click)="saveTrainingAndDocumentation()" />
+    </div>
+</p-dialog>        
+
+<!-- Warranty and Support-->
+<p-dialog header="Warranty and Support" [modal]="true" [(visible)]="visible8" [style]="{ width: '35rem' }">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="period" class="font-semibold w-6rem">Warranty Period</label>
+        <input pInputText id="period" class="flex-auto" autocomplete="off" placeholder="[Enter Warranty Period]" [(ngModel)]="warrantyPeriod"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="startdate" class="font-semibold w-6rem">Warranty Start Date</label>
+        <input type="date" id="startdate" name="datepicker" class="p-inputtext p-component" [(ngModel)]="warrantyStartDate" placeholder="Enter Date">
+
+        
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="enddate" class="font-semibold w-6rem">Warranty End Date</label>
+        <input type="date" id="enddate" name="datepicker" class="p-inputtext p-component" [(ngModel)]="warrantyEndDate" placeholder="Enter Date">
+
+       
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="supcon" class="font-semibold w-6rem">Support Contact Information</label>
+        <input pInputText id="supcon" class="flex-auto" autocomplete="off" placeholder="[Enter Support Details]" [(ngModel)]="supportContactInformation"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible8 = false" />
+        <p-button label="Save" (click)="saveWarrantyAndSupport()" />
+    </div>
+</p-dialog>     
+
+<p-dialog header="Machine Name" [modal]="true" [(visible)]="visible9" [style]="{ width: '20rem' }">
+    <div class="mb-3">
+        <ul class="option-item">
+            <li (click)="selectMachine('CNC 001')">CNC 001</li>
+            <li (click)="selectMachine('CNC 002')">CNC 002</li>
+            <li (click)="selectMachine('CNC 003')">CNC 003</li>
+            <li (click)="selectMachine('CNC 004')">CNC 004</li>
+            <li (click)="selectMachine('CNC 005')">CNC 005</li>
+            <li (click)="selectMachine('VMC 001')">VMC 001</li>
+            <li (click)="selectMachine('VMC 002')">VMC 002</li>
+        </ul>
+    </div>
+
+    
+    <div *ngIf="machinename" class="mb-3">
+        Selected Machine: {{ machinename }}
+    </div>
+
+  
+</p-dialog>
+
+
+
+
+<style>
+
+
+
+.option-item li {
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 8px;
+    
+}
+input[type="date"].p-inputtext {
+    appearance: none;
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-radius: 0.25rem;
+    width: 100%;
+}
+
+input[type="date"].p-inputtext:hover {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+ 
+input[type="date"].p-inputtext:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+</style>

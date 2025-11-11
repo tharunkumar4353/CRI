@@ -1,0 +1,138 @@
+<div class="card">
+  <h4>Breakdown Maintenance Record</h4>
+  <hr>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-1">
+      <p-button label="Add Row" (onClick)="addRow()"></p-button>
+    </div>
+    <div class="field col-12 md:col-1">
+      <p-button label="Summary" routerLink="sumplanned"></p-button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date & Time</th>
+        <th>Machine ID/Name</th>
+        <th>Location</th>
+        <th>Reported By</th>
+        <th>Breakdown Description</th>
+        <th>Root Cause</th>
+        <th>Actions Taken</th>
+        <th>Spare Parts Used</th>
+        <th>Total Cost of Spare Parts</th>
+        <th>Downtime Duration</th>
+        <th>Maintenance Personnel</th>
+        <th>Follow-up Required</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows; let i = index">
+        <td><p-calendar [(ngModel)]="row.dateTime"></p-calendar></td>
+        <td><div>
+          <input type="text" pInputText [(ngModel)]="row.machineIdName" name="machineName{{i}}"
+            (click)="showDialog(row)" class="inputfield" />
+          <p-dialog [(visible)]="row.showDialog" [modal]="true" [style]="{ width: '300px' }"
+            (onHide)="row.showDialog = false">
+            <p-header>
+              <div>Machine Name</div>
+            </p-header>
+            <div>
+              <ul class="no-bullets">
+                <li *ngFor="let option of popupOptions" class="option-item" (click)="selectOption(option, row)">
+                  {{ option.label }}
+                </li>
+              </ul>
+            </div>
+          </p-dialog>
+        </div></td>
+        <td><input type="text" pInputText [(ngModel)]="row.location"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.reportedBy"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.breakdownDescription"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.rootCause"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.actionsTaken"></td>
+        <td><p-button (click)="openSparesDialog(i)" label="Spares"></p-button></td>
+        <td><input type="text" pInputText [(ngModel)]="row.totalCostOfRepair"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.downtimeDuration"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.maintenancePersonnel"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.followUpRequired"></td>
+        <td><input type="text" pInputText [(ngModel)]="row.comments"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-1">
+      <p-button label="Submit" (onClick)="submit()"></p-button>
+    </div>
+    <div class="field col-12 md:col-1">
+      <p-button label="Clear" severity="danger" (onClick)="clearForm()"></p-button>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Edit Spare Parts" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem', height: '80%' }">
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-4">
+      <p-button label="Add Row" (onClick)="addSpareRow()"></p-button>
+    </div>
+  </div>
+<!-- Inside p-dialog -->
+<!-- Inside p-dialog -->
+<table class="table">
+  <thead>
+    <tr>
+      <th>Spare Parts Used</th>
+      <th>Spare Parts Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+<!-- Inside p-dialog -->
+<tr *ngFor="let spare of spareParts; let j = index">
+  <td><input type="text" pInputText [(ngModel)]="spareParts[j].sparePartsUsed"></td>
+  <td><input type="text" pInputText [(ngModel)]="spareParts[j].sparePartsCost"></td>
+</tr>
+
+  </tbody>
+</table>
+
+
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-4">
+      <p-button label="Ok" (onClick)="saveSpareParts()"></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<style>
+  .card {
+    width: 2500px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .table th {
+    background-color: #f2f2f2;
+    text-align: center;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .option-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+</style>

@@ -1,0 +1,152 @@
+<div class="card">
+  <div class="button-container">
+    <div class="grid p-fluid mt-1">
+    <!-- <div class="field col-12 md:col-3 ">
+      <span class="input-with-icon">
+        <input type="text" pInputText [(ngModel)]="searchTerm" (input)="filterData()" (click)="openDialog(row)" placeholder="Search Machine No"
+          [ngStyle]="{width: '200px'}" />
+          <p-dialog [(visible)]="showDialog" [modal]="true" [style]="{ width: '300px' }"
+              (onHide)="showDialog = false">
+              <p-header>
+                <div>Machine Name</div>
+              </p-header>
+              <div>
+                <ul class="no-bullets">
+                  <li *ngFor="let option of popupOptions" class="option-item" (click)="selectOption(option, row)">
+                    {{ option.label }}
+                  </li>
+                </ul>
+              </div>
+            </p-dialog>
+        <i class="fa fa-search"></i>
+      </span>
+    </div> -->
+    <div class="field col-12 md:col-2">
+      <p-button label="Download Excel" (click)="downloadExcel()" class="next-button"><i class="fa-solid fa-download"></i></p-button>
+    </div> 
+    <!-- <div class="field col-12 md:col-2">
+      <p-button label="Download PDF" (click)="downloadPDF()" class="next-button"></p-button>
+    </div>  -->
+    <div class="field col-12 md:col-2">
+      <p-button label="Back" (click)="goBack()" class="next-button"><i class="fa-solid fa-arrow-left"></i></p-button>
+    </div>   
+    <div class="field col-12 md:col-8 text-right">
+      <p-button class="refresh-button" (click)="refresh()"><i class="fa-solid fa-arrows-rotate"></i></p-button>
+  </div> 
+    </div>
+  </div>
+  
+
+  <div id="table-to-export" class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th rowspan="2">Date & Time</th>
+          <th rowspan="2">Machine Name</th>
+          <th rowspan="2">Location</th>
+          <th rowspan="2">Reported By</th>
+          <th rowspan="2">Breakdown Description</th>
+          <th rowspan="2">Root Cause</th>
+          <th rowspan="2">Actions Taken</th>
+          <th colspan="3">Spare Parts Used</th>
+          <th rowspan="2">Downtime Duration</th>
+          <th rowspan="2">Maintenance Personnel</th>
+          <th rowspan="2">Follow-up Required</th>
+          <th rowspan="2">Comments</th>
+        </tr>
+        <tr>
+          <th>Spare Parts Used</th>
+          <th>Spare Parts Cost</th>
+          <th>Total Cost of Repair</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of filteredProcess">
+          <tr>
+            <td [attr.rowspan]="item.rowspan">{{ item.date_time }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.machine_no }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.location }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.reported_by }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.breakdown_desc }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.root_cause }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.actions_taken }}</td>
+            <td>{{ item.spares[0] }}</td>
+            <td>{{ item.spares_cost[0] }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.total_cost }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.downtime_duration }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.maintenance_personnel }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.followup_required }}</td>
+            <td [attr.rowspan]="item.rowspan">{{ item.comments }}</td>
+          </tr>
+          <tr *ngFor="let i of [].constructor(item.spares.length - 1); let index = index">
+            <td>{{ item.spares[index + 1] }}</td>
+            <td>{{ item.spares_cost[index + 1] }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  
+  
+</div>
+
+
+
+
+
+<style>
+     .refresh-button {
+                float: right;
+            }
+.table-container {
+  margin-top: 20px;
+  overflow: scroll; /* Add horizontal scroll if needed */
+
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 15px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+.option-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+
+
+.input-with-icon {
+  position: relative; /* Make sure the container is relatively positioned */
+}
+
+.input-with-icon input {
+  padding-right: 30px; /* Adjust padding to accommodate the icon */
+}
+
+.input-with-icon i {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right position based on your preference */
+  transform: translateY(-50%);
+  pointer-events: none; /* Ensure the icon does not interfere with input events */
+}
+
+</style>

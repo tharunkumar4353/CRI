@@ -1,0 +1,211 @@
+<div class="card">
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-11">
+      <h4> Quality Summary Table</h4>
+    </div>
+    <div class="field col-12 md:col-1 text-right">
+      <p-button class="refresh-button" (click)="goBack()"><i class="fa-solid fa-arrow-left"></i></p-button>
+    </div>
+  </div>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-9 md:col-2">
+      <p-button label="Download Excel" (click)="exportExcel()"><i class="fa-solid fa-download"></i></p-button>
+    </div>
+    <div class="field col-12 md:col-2">
+      <p-button label="Download PDF" (click)="exportPdf()"><i class="fa-solid fa-download"></i></p-button>
+    </div>
+  </div>
+  <hr>
+  <div class="grid p-fluid mt-1">
+    <div class="field col-12 md:col-1">
+      <p-dropdown [options]="machines" [(ngModel)]="selectedMachine" placeholder="Select Machine"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-1">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="dateFrom" dateFormat="dd-mm-yy"/>
+        <label for="datefrom">Date From</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-1">
+      <span class="p-float-label">
+        <p-calendar [(ngModel)]="dateTo" [minDate]="dateFrom" dateFormat="dd-mm-yy"/>
+        <label for="dateto">Date To</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-1">
+      <span class="p-float-label">
+        <p-button label="Search" (click)="onSubmit()"><i class="fa-solid fa-magnifying-glass"></i></p-button>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="card">
+
+  <div id="summary-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Date</th>
+          <th>Machine Name</th>
+          <th>Work Order</th>
+          <th>Customer Code</th>
+          <th>FG Name</th>
+          <th>Part-Process-Id</th>
+
+          <th>Part Id</th>
+          <th>Part Name</th>
+          <th>Process Name</th>
+          <th>Assigned Quantity</th>
+          <th>Setter Name</th>
+          <th>Operator Name</th>
+          <th>Accepted Count</th>
+          <th>Rejection</th>
+          <th>Reason</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let part of paginatedProcess; let i = index">
+          <td>{{part.unique_id}}</td>
+          <td style="width: 110px;">{{ part.date | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ part.machine_name }}</td>
+          <td>{{ part.work_order }}</td>
+          <td>{{ part.cust_code }}</td>
+
+          <td>{{ part.fg_name }}</td>
+          <td>{{part.itemprocess_id}}</td>
+
+
+          <td>{{ part.part_id }}</td>
+          <td>{{ part.part_name }}</td>
+          <td>{{ part.process_name }}</td>
+          <td>{{ part.planned_quantity }}</td>
+          <td>{{ part.setter_name }}</td>
+          <td>{{ part.operator_name }}</td>
+
+          <td>
+            <input *ngIf="part.isEditing" pInputText [(ngModel)]="part.accept" />
+            <span *ngIf="!part.isEditing">{{ part.accept }}</span>
+          </td>
+          <td>
+            <input *ngIf="part.isEditing" pInputText [(ngModel)]="part.reject" />
+            <span *ngIf="!part.isEditing">{{ part.reject }}</span>
+          </td>
+          <td>
+            <input *ngIf="part.isEditing" pInputText [(ngModel)]="part.reason" />
+            <span *ngIf="!part.isEditing">{{ part.reason }}</span>
+          </td>
+          <td>
+            <button class="icon-button edit-button" *ngIf="!part.isEditing" (click)="enableEditing(part)">
+              <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+  
+            <button class="icon-button save-button" *ngIf="part.isEditing" (click)="saveChanges(part)">
+              <i class="fa-regular fa-floppy-disk"></i>
+            </button>
+            <div class="deletebutton">
+              <button class="icon-button delete-button" (click)="deleteRow(i)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table><br>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="filteredProcess.length"
+    [rowsPerPageOptions]="[5,10, 15, 20, 30]" />
+  </div>
+</div>
+<style>
+
+  .card{
+    width: 2200px;
+  }
+  .deletebutton {
+    margin-top: 10px;
+  }
+
+  .icon-button {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding: 3px 8px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .icon-button:hover {
+    background-color: rgba(0, 0, 0, 1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+  }
+
+  .icon-button i {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+
+  .edit-button {
+    background-color: whitesmoke;
+    color: black;
+  }
+
+  .edit-button:hover {
+    background-color: rgb(145, 222, 248);
+  }
+
+  .delete-button {
+    background-color: whitesmoke;
+    color: black;
+  }
+
+  .delete-button:hover {
+    background-color: rgb(238, 139, 139);
+  }
+
+  .save-button {
+    background-color: whitesmoke;
+    color: black;
+  }
+
+  .save-button:hover {
+    background-color: rgb(163, 248, 163);
+    /* Green background on hover */
+  }
+
+
+
+  .table-container {
+    margin-top: 20px;
+  }
+
+  .refresh-button {
+    float: right;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .table th {
+    background-color: #f2f2f2;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>

@@ -1,0 +1,134 @@
+<div class="machine-container">
+  <div *ngFor="let machine of machines"  routerLink="card1"
+       [ngClass]="{
+         'machine-card': true,
+         'green': machineData1[machine]?.color === 'green',
+         'orange': machineData1[machine]?.color === 'orange',
+         'red': machineData1[machine]?.color === 'red',
+         'blue': machineData1[machine]?.color === 'M/C Idle',
+         'orangecount': machineData1[machine]?.color === 'orangecount',
+         'white': machineData1[machine]?.color === 'null',
+
+       }">
+    <div class="header">
+      <h3 class="machine-name">{{ machine }}</h3>
+      <p><strong>Part Count:</strong> {{ machineData1[machine]?.part_count || 0 }}</p>
+
+      <p class="oee"><strong>OEE% :</strong> {{ oeeData[machine] !== undefined ? oeeData[machine].toFixed(2) : '0' }}%</p>
+    </div>
+    
+    <p [ngClass]="{
+         'power-status': true,
+         'power-on': machineData1[machine]?.color,
+         'power-off': !machineData1[machine]?.color
+       }">
+      {{ getPowerStatus(machineData1[machine]?.color) }}
+    </p>
+    <hr>
+
+    <div class="field">
+      <label class="status"><b>Customer Code :</b> {{ machineData[machine]?.custcode || 'N/A' }}</label>
+    </div>
+    <div class="field">
+      <label class="status"><b>FG Name :</b> {{ machineData[machine]?.fgname || 'N/A' }}</label>
+    </div>
+    <div class="field">
+      <label class="status"><b>Part Name :</b> {{ machineData[machine]?.partName || 'N/A' }}</label>
+    </div>
+    <div class="field">
+      <label class="status"><b>Process Name :</b> {{ machineData[machine]?.processName || 'N/A' }}</label>
+    </div>
+    <div class="field">
+      <label class="status"><b>Process Type :</b> 
+        {{ machineData[machine]?.processType !== undefined ? machineData[machine]?.processType : 'N/A' }}
+      </label>    </div>
+    <div class="field">
+      <label class="status"><b>Setter Name :</b> {{ machineData[machine]?.setterName || 'N/A' }}</label>
+    </div>
+    <div class="field">
+      <label class="status"><b>Operator Name :</b> {{ machineData[machine]?.operatorName || 'N/A' }}</label>
+    </div>
+    <p><strong>Cycle Time:</strong> {{ formatTime(machineData1[machine]?.cycle_time || 0) }} (min)</p>
+
+
+    <div class="field">
+      <div class="machine-info">
+        <label class="status"><b>Assigned Quantity :</b> {{ machineData[machine]?.planquantity || 'N/A' }}</label>
+      </div>
+    </div>
+    
+
+    <p><strong>Runtime:</strong> {{ formatTime(machineData1[machine]?.timers?.runtime || 0) }} (hrs)</p>
+    <p><strong>Process Idle:</strong> {{ formatTime(machineData1[machine]?.timers?.process_idle || 0) }} (hrs)</p>
+    <p><strong>Breakdown:</strong> {{ formatTime(machineData1[machine]?.timers?.breakdown || 0) }} (hrs)</p>
+    <p><strong>Machine Idle:</strong> {{ formatTime(machineData1[machine]?.timers?.idle || 0) }} (hrs)</p>
+  </div>
+</div>
+
+
+<style>
+
+.header {
+  display: flex;
+  justify-content: space-between; /* Space between the machine name and OEE% */
+  align-items: center; /* Align items vertically centered */
+  margin-bottom: 16px; /* Add some space below the header */
+}
+
+.machine-name {
+  margin: 0; /* Remove default margin */
+}
+
+.oee {
+  margin: 0; /* Remove default margin */
+  text-align: right; /* Align text to the right */
+}
+
+.power-on {
+  color: #28a745; /* Light green color for power on */
+}
+
+.power-off {
+  color: #dc3545; /* Red color for power off */
+}
+
+.machine-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns */
+  gap: 16px; /* Space between the cards */
+}
+
+.machine-card {
+  border: 2px solid #ddd; /* Default border */
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Default shadow */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for border color and shadow */
+}
+
+.machine-card.green {
+  border-color: #28a745; /* Green border */
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.5); /* Green shadow */
+}
+
+.machine-card.orange {
+  border-color: #ffc107; /* Orange border */
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.5); /* Orange shadow */
+}
+
+.machine-card.red {
+  border-color: #dc3545; /* Red border */
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.5); /* Red shadow */
+}
+
+.machine-card.blue {
+  border-color: #3e85c3; /* Blue border for M/C Idle */
+  box-shadow: 0 2px 8px rgba(58, 130, 193, 0.5); /* Blue shadow */
+}
+
+.machine-card.orangecount {
+  border-color: #ffa500; /* Orange color for orangecount */
+  box-shadow: 0 2px 8px rgba(255, 165, 0, 0.5); /* Orange shadow */
+}
+
+</style>
