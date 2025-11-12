@@ -5,9 +5,9 @@ import { AppLayoutComponent } from './layout/app.layout.component';
 import { GateComponent } from './demo/components/auth/gate/gate.component';
 import { PlanDemoComponent } from './demo/components/uikit/planning/plandemo.component';
 import { AuthGuard } from './demo/service/auth.guard';
+import { DashboardComponent } from './demo/components/dashboard/dashboard.component';
 const routes: Routes = [
-    { path: 'planning', component: PlanDemoComponent },
-    { path: 'gate', component: GateComponent },
+    { path: 'dashboard', component: DashboardComponent },
     {
         path: '', component: AppLayoutComponent, canActivate: [AuthGuard], // Protect the AppLayoutComponent route
         children: [
